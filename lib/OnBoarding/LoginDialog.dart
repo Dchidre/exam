@@ -46,17 +46,21 @@ class LoginDialog {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(height: 50,),
+                    //title
                     Text(
                       "Sign In",
                       style: TextStyle(fontSize: 62, fontWeight: FontWeight.bold),
                     ),
                   SizedBox(height: 50,),
+                    //form
                     textField(sLabel: 'Email', myController: tecEmail, icIzq: Icons.mail_outline),
                     textField(sLabel: 'Password', myController: tecPassword, blIsPass: true, icIzq: Icons.lock_open_outlined),
                   SizedBox(height: 30),
+                    //btn
                     customBtn(fAction: () {}, sText: 'Login'),
                   SizedBox(height: 30),
-                      Padding(padding: EdgeInsets.symmetric(horizontal: 30),
+                    //divide
+                    Padding(padding: EdgeInsets.symmetric(horizontal: 30),
                         child:
                           const Row(
                             children: [
@@ -77,12 +81,11 @@ class LoginDialog {
                           ),
                       ),
                   SizedBox(height: 30,),
-                      customBtn(fAction: () {
+                    //btn
+                    customBtn(fAction: () {
                             Navigator.of(context).pop();
                             SignUpDialog().showSignUpDialog(context);
-                          },
-                          sText: 'Sign Up'
-                      ),
+                          }, sText: 'Sign Up'),
                     ],)
                   // Add your other sign-in elements here
               ),

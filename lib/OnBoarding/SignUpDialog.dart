@@ -1,11 +1,15 @@
+import 'package:exa_chircea/components/customBtn.dart';
 import 'package:flutter/material.dart';
+
+import '../components/textField.dart';
 
 class SignUpDialog {
   @override
   Future<Object?> showSignUpDialog(BuildContext context) {
-    void cancelar(BuildContext context) {
-      Navigator.of(context).pop();
-    }
+    final tecEmail = TextEditingController();
+    final tecPassword = TextEditingController();
+    final tecRepPassword = TextEditingController();
+
     return showGeneralDialog(
       transitionBuilder: (context, animation, secondaryAnimation, child) {
         const begin = Offset(0.0, 1.0);
@@ -39,18 +43,36 @@ class SignUpDialog {
           margin: EdgeInsets.symmetric(horizontal: 16),
           child: Scaffold(
             backgroundColor: Colors.transparent,
-            body: Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    "Sign Up",
-                    style: TextStyle(fontSize: 34),
+            body: ListView(
+              children: [
+                Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(height: 50,),
+                      //title
+                      Text(
+                        "Sign Up",
+                        style: TextStyle(fontSize: 62, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 50,),
+                      //form
+                      textField(sLabel: 'Email', myController: tecEmail, icIzq: Icons.mail_outline),
+                      textField(sLabel: 'Password', myController: tecPassword, blIsPass: true, icIzq: Icons.lock_open_outlined),
+                      textField(sLabel: 'Repeat password', myController: tecRepPassword, blIsPass: true, icIzq: Icons.lock_open_outlined),
+                      SizedBox(height: 50),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          customBtn(fAction: () {}, sText: "Sign Up"),
+                          SizedBox(width: 40,),
+                          customBtn(fAction: () {Navigator.of(context).pop();}, sText: "Cancel"),
+                        ],
+                      ),
+                    ],
                   ),
-                  FilledButton(onPressed: () {Navigator.of(context).pop();}, child: Text("Sign up")),
-                  // Add your other sign-in elements here
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
