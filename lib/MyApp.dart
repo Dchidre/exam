@@ -1,4 +1,5 @@
 
+import 'package:exa_chircea/Splash/SplashView.dart';
 import 'package:flutter/material.dart';
 import 'OnBoarding/InitialView.dart';
 
@@ -11,8 +12,9 @@ class exaApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: {
         '/initialview':(context) => InitialView(),
+        '/splashview':(context) => SplashView(),
       },
-        initialRoute: '/initialview',
+        initialRoute: '/splashview',
     );
     }
   }
