@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "808303637319",
+    "project_id": "exam-6ce92",
+    "storage_bucket": "exam-6ce92.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:808303637319:android:4c399c6e1bd9184f2f9262",
+        "android_client_info": {
+          "package_name": "com.example.exa_chircea"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCY4_f_PGydpHNrltkT8XAHw8DDkdhWmCA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
