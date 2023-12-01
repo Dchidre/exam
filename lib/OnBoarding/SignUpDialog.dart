@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:exa_chircea/components/customBtn.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../components/textField.dart';
@@ -6,9 +8,25 @@ import '../components/textField.dart';
 class SignUpDialog {
   @override
   Future<Object?> showSignUpDialog(BuildContext context) {
+    FirebaseFirestore db = FirebaseFirestore.instance;
     final tecEmail = TextEditingController();
     final tecPassword = TextEditingController();
     final tecRepPassword = TextEditingController();
+
+    late final defaultProfileData = <String, dynamic>{
+      "nombre"!: tecEmail.text.substring(0, tecEmail.text.indexOf("@")),
+      "edad": 0,
+    };
+    void createDefaultUser(BuildContext context) async {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(email: tecEmail.text, password: tecPassword.text);
+      String uidUsuario= FirebaseAuth.instance.currentUser!.uid;
+      await db.collection("Usuarios").doc(uidUsuario).set(defaultProfileData);
+    }
+
+    void onClickRegister(BuildContext context) {
+      createDefaultUser(context);
+      Navigator.of(context).popAndPushNamed('/homeview');
+    }
 
     return showGeneralDialog(
       transitionBuilder: (context, animation, secondaryAnimation, child) {
@@ -31,7 +49,7 @@ class SignUpDialog {
       },
       transitionDuration: Duration(milliseconds: 600),
       barrierDismissible: true,
-      barrierLabel: "signIn",
+      barrierLabel: "signUp",
       context: context,
       pageBuilder: (context, _, __) => Center(
         child: Container(
@@ -64,7 +82,7 @@ class SignUpDialog {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          customBtn(fAction: () {}, sText: "Sign Up"),
+                          customBtn(fAction: () {onClickRegister(context);}, sText: "Sign Up"),
                           SizedBox(width: 40,),
                           customBtn(fAction: () {Navigator.of(context).pop();}, sText: "Cancel"),
                         ],

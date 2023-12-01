@@ -2,12 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class fbUser{
 
-  final String nombre;
-  final int edad;
+  final String name;
+  final int age;
 
   fbUser ({
-    required this.nombre,
-    required this.edad,
+    required this.name,
+    required this.age,
   });
 
   factory fbUser.fromFirestore(
@@ -16,14 +16,14 @@ class fbUser{
       ) {
     final data = snapshot.data();
     return fbUser(
-      nombre: data?['nombre'],
-      edad: data?['edad'],
+      name: data?['name'],
+      age: data?['age'],
     );
   }
   Map<String, dynamic> toFirestore() {
     return {
-      if (nombre != null) "nombre": nombre,
-      if (edad != null) "edad": edad,
+      if (name != null) "name": name,
+      if (age != null) "age": age,
     };
   }
 

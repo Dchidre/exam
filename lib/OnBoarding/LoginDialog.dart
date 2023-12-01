@@ -14,7 +14,8 @@ class LoginDialog {
     FirebaseFirestore db = FirebaseFirestore.instance;
     final tecEmail = TextEditingController();
     final tecPassword = TextEditingController();
-    final snackFalloLogin = SnackBar(content: Text('Algo ha fallado :('),);
+
+
 
 
     Future<void> onClickLogin() async {
@@ -29,21 +30,21 @@ class LoginDialog {
         //DocumentSnapshot<Map<String, dynamic>> datos=await db.collection("Usuarios").doc(uid).get();
 
         //para no ir pillando las cosas con datos.data().... pues hacemos
-        //un objeto usuario general y pillamos las cosas de él
+        //un objeto user general y pillamos las cosas de él
         DocumentReference<fbUser> ref=db.collection("Usuarios")
             .doc(uid)
             .withConverter(fromFirestore: fbUser.fromFirestore,
-          toFirestore: (fbUser usuario, _) => usuario.toFirestore(),);
+          toFirestore: (fbUser user, _) => user.toFirestore(),);
 
         DocumentSnapshot<fbUser> docSnap=await ref.get();
-        fbUser usuario=docSnap.data()!;
+        fbUser user=docSnap.data()!;
 
 
-        if(usuario!=null){
-          //Navigator.of(context).popAndPushNamed("/homeview");
+        if(user!=null){
+          Navigator.of(context).popAndPushNamed("/homeview");
         }
         else{
-          //Navigator.of(context).popAndPushNamed("/perfilview");
+          //meter un snack bar de que no existe ese perfil
         }
 
       } on FirebaseAuthException catch (e) {
