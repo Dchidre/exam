@@ -9,17 +9,21 @@ class InitialView extends StatelessWidget {
       body:
         Padding(padding: EdgeInsets.symmetric(horizontal: 32),
         child:
-        Column(
+        ListView(
           children: [
-            SizedBox(height: 250,),
-            Text("Never travel alone anymore", style: TextStyle(fontSize: 60)),
-            SizedBox(height: 130,),
-            FilledButton(
-              onPressed: () {LoginDialog().showLoginDialog(context);},
-              child: Text("Login"),
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.black),
-              ),
+            Column(
+              children: [
+                SizedBox(height: 200,),
+                Text("Never travel alone anymore", style: TextStyle(fontSize: 60)),
+                SizedBox(height: 130,),
+                FilledButton(
+                  onPressed: () {LoginDialog().showLoginDialog(context);},
+                  child: Text("Login"),
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.black),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
