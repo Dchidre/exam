@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:exa_chircea/FbObjects/fbUser.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../components/customBtn.dart';
@@ -5,12 +8,54 @@ import '../components/textField.dart';
 import 'SignUpDialog.dart';
 
 class LoginDialog {
+
   @override
   Future<Object?> showLoginDialog(BuildContext context) {
-    late BuildContext _context;
+    FirebaseFirestore db = FirebaseFirestore.instance;
     final tecEmail = TextEditingController();
     final tecPassword = TextEditingController();
     final snackFalloLogin = SnackBar(content: Text('Algo ha fallado :('),);
+
+
+    Future<void> onClickLogin() async {
+      try {
+        final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+            email: tecEmail.text,
+            password: tecPassword.text
+        );
+
+        String uid=FirebaseAuth.instance.currentUser!.uid;
+
+        //DocumentSnapshot<Map<String, dynamic>> datos=await db.collection("Usuarios").doc(uid).get();
+
+        //para no ir pillando las cosas con datos.data().... pues hacemos
+        //un objeto usuario general y pillamos las cosas de él
+        DocumentReference<fbUser> ref=db.collection("Usuarios")
+            .doc(uid)
+            .withConverter(fromFirestore: fbUser.fromFirestore,
+          toFirestore: (fbUser usuario, _) => usuario.toFirestore(),);
+
+        DocumentSnapshot<fbUser> docSnap=await ref.get();
+        fbUser usuario=docSnap.data()!;
+
+
+        if(usuario!=null){
+          //Navigator.of(context).popAndPushNamed("/homeview");
+        }
+        else{
+          //Navigator.of(context).popAndPushNamed("/perfilview");
+        }
+
+      } on FirebaseAuthException catch (e) {
+
+
+        if (e.code == 'user-not-found') {
+          print('No user found for that email.');
+        } else if (e.code == 'wrong-password') {
+          print('Wrong password provided for that user.');
+        }
+      }
+    }
 
 
     return showGeneralDialog(
@@ -57,7 +102,7 @@ class LoginDialog {
                     textField(sLabel: 'Password', myController: tecPassword, blIsPass: true, icIzq: Icons.lock_open_outlined),
                   SizedBox(height: 30),
                     //btn
-                    customBtn(fAction: () {}, sText: 'Login'),
+                    customBtn(fAction: () {onClickLogin();}, sText: 'Login'),
                   SizedBox(height: 30),
                     //divide
                     Padding(padding: EdgeInsets.symmetric(horizontal: 30),
