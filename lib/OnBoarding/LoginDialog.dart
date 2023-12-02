@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:exa_chircea/FbObjects/fbUser.dart';
+import 'package:exa_chircea/OnBoarding/ProfileDialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -11,43 +12,44 @@ class LoginDialog {
 
   @override
   Future<Object?> showLoginDialog(BuildContext context) {
+
+    //var
     FirebaseFirestore db = FirebaseFirestore.instance;
     final tecEmail = TextEditingController();
     final tecPassword = TextEditingController();
 
-
-
-
+    //methods
     Future<void> onClickLogin() async {
+      //signIn
       try {
         final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
             email: tecEmail.text,
             password: tecPassword.text
         );
 
+        //take the UID
         String uid=FirebaseAuth.instance.currentUser!.uid;
 
-        //DocumentSnapshot<Map<String, dynamic>> datos=await db.collection("Usuarios").doc(uid).get();
-
-        //para no ir pillando las cosas con datos.data().... pues hacemos
-        //un objeto user general y pillamos las cosas de él
+        //make a reference to the database profiles
         DocumentReference<fbUser> ref=db.collection("Usuarios")
             .doc(uid)
             .withConverter(fromFirestore: fbUser.fromFirestore,
           toFirestore: (fbUser user, _) => user.toFirestore(),);
 
+        //take the profile if exists
         DocumentSnapshot<fbUser> docSnap=await ref.get();
-        fbUser user=docSnap.data()!;
+        fbUser? user=docSnap.data();
 
-
+        //now, does it exist?
         if(user!=null){
           Navigator.of(context).popAndPushNamed("/homeview");
         }
         else{
-          //meter un snack bar de que no existe ese perfil
+          ProfileDialog().showProfileDialog(context);
         }
 
-      } on FirebaseAuthException catch (e) {
+      }
+      on FirebaseAuthException catch (e) {
 
 
         if (e.code == 'user-not-found') {
@@ -58,7 +60,7 @@ class LoginDialog {
       }
     }
 
-
+    //paint
     return showGeneralDialog(
       transitionBuilder: (context, animation, secondaryAnimation, child) {
         const begin = Offset(0.0, -1.0);

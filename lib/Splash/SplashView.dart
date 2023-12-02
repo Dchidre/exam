@@ -39,7 +39,7 @@ class _SplashViewState extends State<SplashView>{
             ],
           ),
           SizedBox(height: 100,),
-          CircularProgressIndicator(color: Colors.greenAccent),
+          CircularProgressIndicator(color: Colors.lightBlueAccent),
         ],
       ),
     );
