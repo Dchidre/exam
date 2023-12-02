@@ -20,7 +20,7 @@ class SignUpDialog {
     void onClickRegister(BuildContext context) async {
       try {
         await FirebaseAuth.instance.createUserWithEmailAndPassword(email: tecEmail.text, password: tecPassword.text);
-        Navigator.of(context).pop;
+        Navigator.of(context).pop();
         ProfileDialog().showProfileDialog(context);
       }
       on FirebaseAuthException catch (e) {

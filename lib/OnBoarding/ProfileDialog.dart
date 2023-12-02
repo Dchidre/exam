@@ -69,7 +69,7 @@ class ProfileDialog {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SizedBox(height: 50,),
+                      SizedBox(height: 20,),
                       //title
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 20),

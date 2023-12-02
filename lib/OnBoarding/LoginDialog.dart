@@ -45,6 +45,7 @@ class LoginDialog {
           Navigator.of(context).popAndPushNamed("/homeview");
         }
         else{
+          Navigator.of(context).pop();
           ProfileDialog().showProfileDialog(context);
         }
 
