@@ -7,13 +7,13 @@ class listPost extends StatelessWidget{
   final String sUserName;
   final int iPos;
   final String urlImg;
-  final Function(int indice)? onItemListClickedFunc;
+  final Function(int indice)? onPostTap;
 
   const listPost({super.key,
     required this.sUserName,
     required this.iPos,
     this.urlImg = "",
-    required this.onItemListClickedFunc});
+    required this.onPostTap});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class listPost extends StatelessWidget{
             padding: const EdgeInsets.all(20.0),
             child:
             InkWell( //para poder poner onTap
-                onTap: () {onItemListClickedFunc!(iPos);},
+                onTap: () {onPostTap!(iPos);},
                 child:
                 Row(
                   children: [
@@ -51,7 +51,7 @@ class listPost extends StatelessWidget{
                 image: DecorationImage(
                   opacity: 1,
                   image: NetworkImage(urlImg),
-                  fit: BoxFit.fill,
+                  fit: BoxFit.cover,
                 )
             ),
           )

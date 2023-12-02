@@ -17,8 +17,8 @@ class ProfileDialog {
 
     //methods
     late final profileData = <String, dynamic>{
-      "nombre": tecName.text,
-      "edad": int.parse(tecAge.text),
+      "name": tecName.text,
+      "age": int.parse(tecAge.text),
     };
     void createProfile(BuildContext context) async {
       String uidUsuario= FirebaseAuth.instance.currentUser!.uid;
