@@ -19,7 +19,6 @@ class HomeView extends StatefulWidget {
       body: Center(
         child:
           Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text("Home"),
             ],
