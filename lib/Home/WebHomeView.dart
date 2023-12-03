@@ -1,18 +1,19 @@
 
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:exa_chircea/components/posts/gridPost.dart';
 import 'package:flutter/material.dart';
 
 import '../FbObjects/fbPost.dart';
 import '../Singletone/DataHolder.dart';
 import '../components/posts/listPost.dart';
 
-class PhoneHomeView extends StatefulWidget {
+class WebHomeView extends StatefulWidget {
   @override
-  State<PhoneHomeView> createState() => _PhoneHomeViewState();
+  State<WebHomeView> createState() => _WebHomeViewState();
 }
 
-  class _PhoneHomeViewState extends State<PhoneHomeView>{
+class _WebHomeViewState extends State<WebHomeView>{
 
   //var
   FirebaseFirestore db = FirebaseFirestore.instance;
@@ -42,39 +43,31 @@ class PhoneHomeView extends StatefulWidget {
   }
 
   //widgets
-  Widget? listCreator(BuildContext context, int index){
-    return listPost(
-      sUserName: postList[index].sUserName,
-      urlImg: postList[index].sUrlImg,
-      iPos: index, //para que el propio post sea consciente de su posición
-      onPostTap: onPostTapDo,
+  Widget? gridCreator(BuildContext context, int index){
+    return gridPost(
+        sUserName: postList[index].sUserName,
+        urlImg: postList[index].sUrlImg,
+        iPos: index, //para que el propio post sea consciente de su posición
+        onPostTap: onPostTapDo,
     );
   }
-  Widget listSeparator(BuildContext context, int index) {
-    //return Divider(thickness: 5,);
-    return const Column(
-      children: [
-        Divider(),
-        //CircularProgressIndicator(),
-        //Image.network("https://media.tenor.com/zBc1XhcbTSoAAAAC/nyan-cat-rainbow.gif")
-      ],
-    );
-  }
-  Widget list() {
-    return ListView.separated(
-      padding: EdgeInsets.all(8),
+  Widget grid() {
+    return GridView.builder(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+      ),
       itemCount: postList.length,
-      itemBuilder: listCreator,
-      separatorBuilder: listSeparator,
+      itemBuilder: gridCreator,
+
     );
   }
 
   //initialize statics
   @override
-    void initState() {
-      super.initState();
-      downloadPosts();
-    }
+  void initState() {
+    super.initState();
+    downloadPosts();
+  }
 
   //paint
   @override
@@ -82,8 +75,11 @@ class PhoneHomeView extends StatefulWidget {
     return Scaffold(
       body: Center(
         child:
-          list(),
-      ),
+          Padding(padding: EdgeInsets.symmetric(horizontal: DataHolder().platformAdmin.getScreenWidth()*0.15),
+            child:
+              grid(),
+          ),
+      )
     );
   }
-  }
+}

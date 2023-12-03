@@ -1,23 +1,24 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../../Singletone/DataHolder.dart';
 
-class listPost extends StatelessWidget{
+import '../../Singletone/DataHolder.dart';
+
+class gridPost extends StatelessWidget{
 
   final String sUserName;
   final int iPos;
   final String urlImg;
   final Function(int indice)? onPostTap;
 
-  const listPost({super.key,
+  const gridPost({super.key,
     required this.sUserName,
     required this.iPos,
     this.urlImg = "",
     required this.onPostTap});
 
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return
       Column(
         children: [
@@ -30,30 +31,32 @@ class listPost extends StatelessWidget{
                 Row(
                   children: [
                     Container(
-
-                      width: DataHolder().platformAdmin.getScreenWidth() * 0.1,
-                      height: DataHolder().platformAdmin.getScreenWidth() * 0.1,
+                      width: DataHolder().platformAdmin.getScreenWidth() * 0.03,
+                      height: DataHolder().platformAdmin.getScreenWidth() * 0.03,
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: Colors.grey
                       ),
                     ),
-                    SizedBox(width: DataHolder().platformAdmin.getScreenWidth() * 0.035),
+                    SizedBox(width: DataHolder().platformAdmin.getScreenWidth() * 0.01),
                     Text(sUserName),
                   ],
                 )
             ),
           ),
-          Container(
-            width: DataHolder().platformAdmin.getScreenWidth(),
-            height: DataHolder().platformAdmin.getScreenWidth(),
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                  opacity: 1,
-                  image: NetworkImage(urlImg),
-                  fit: BoxFit.cover,
-                )
-            ),
+          Flexible(
+            child:
+              Container(
+                width: DataHolder().platformAdmin.getScreenWidth() * 0.2,
+                height: DataHolder().platformAdmin.getScreenWidth() * 0.2,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                      opacity: 1,
+                      image: NetworkImage(urlImg),
+                      fit: BoxFit.cover,
+                    )
+                ),
+              ),
           )
         ],
       );
