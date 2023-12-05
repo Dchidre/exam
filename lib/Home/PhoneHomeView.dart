@@ -1,10 +1,12 @@
 
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:exa_chircea/components/bottomMenu.dart';
 import 'package:flutter/material.dart';
 
 import '../FbObjects/fbPost.dart';
 import '../Singletone/DataHolder.dart';
+import '../components/posts/gridPost.dart';
 import '../components/posts/listPost.dart';
 
 class PhoneHomeView extends StatefulWidget {
@@ -17,6 +19,7 @@ class PhoneHomeView extends StatefulWidget {
   //var
   FirebaseFirestore db = FirebaseFirestore.instance;
   final List<fbPost> postList = [];
+  bool blForm = false;
 
   //methods
   @override
@@ -40,6 +43,20 @@ class PhoneHomeView extends StatefulWidget {
     DataHolder().savePostInCache();
     Navigator.of(context).pushNamed('/postview');
   }
+  void bottomMenuActions(int indice) {
+    setState(() {
+      if(indice == 0){
+        blForm = true;
+      }
+      else if(indice==2){
+        blForm = false;
+      }
+      else if(indice==1){
+        Navigator.popAndPushNamed(context, '/homeview');
+      }
+    });
+  }
+
 
   //widgets
   Widget? listCreator(BuildContext context, int index){
@@ -68,6 +85,30 @@ class PhoneHomeView extends StatefulWidget {
       separatorBuilder: listSeparator,
     );
   }
+  //--------------------GRID-----------------------
+  Widget? gridCreator(BuildContext context, int index){
+    return gridPost(
+      sUserName: postList[index].sUserName,
+      urlImg: postList[index].sUrlImg,
+      iPos: index, //para que el propio post sea consciente de su posición
+      onPostTap: onPostTapDo,
+    );
+  }
+  Widget grid() {
+    return GridView.builder(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+      ),
+      itemCount: postList.length,
+      itemBuilder: gridCreator,
+
+    );
+  }
+  //--------------------BOTH-----------------------
+  Widget posts(bool blForm) {
+    return
+      blForm ? list() : grid();
+  }
 
   //initialize statics
   @override
@@ -80,10 +121,12 @@ class PhoneHomeView extends StatefulWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      body:
+      Center(
         child:
-          list(),
+          posts(blForm),
       ),
+      bottomNavigationBar: bottomMenu(onTap: bottomMenuActions),
     );
   }
   }

@@ -39,7 +39,7 @@ class exaApp extends StatelessWidget {
           '/splashview':(context) => SplashView(),
           '/homeview':(context) => PhoneHomeView(),
           },
-          initialRoute: '/splashview',
+          initialRoute: '/homeview',
       );
     }
     }
