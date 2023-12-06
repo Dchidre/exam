@@ -1,6 +1,7 @@
 
 import 'package:exa_chircea/Home/PhoneHomeView.dart';
 import 'package:exa_chircea/Home/WebHomeView.dart';
+import 'package:exa_chircea/Settings/SettingView.dart';
 import 'package:exa_chircea/Singletone/DataHolder.dart';
 import 'package:exa_chircea/Splash/SplashView.dart';
 import 'package:flutter/foundation.dart';
@@ -21,11 +22,11 @@ class exaApp extends StatelessWidget {
         title: "Esta es mi Actividad!",
         debugShowCheckedModeBanner: false,
         routes: {
-          '/initialview':(context) => InitialView(),
-          '/splashview':(context) => SplashView(),
-          '/homeview':(context) => WebHomeView(),
+          '/initialView':(context) => InitialView(),
+          '/splashView':(context) => SplashView(),
+          '/homeView':(context) => WebHomeView(),
         },
-          initialRoute: '/homeview',
+          initialRoute: '/homeView',
       );
     }
 
@@ -35,11 +36,12 @@ class exaApp extends StatelessWidget {
           title: "Esta es mi Actividad!",
           debugShowCheckedModeBanner: false,
           routes: {
-          '/initialview':(context) => InitialView(),
-          '/splashview':(context) => SplashView(),
-          '/homeview':(context) => PhoneHomeView(),
+          '/initialView':(context) => InitialView(),
+          '/splashView':(context) => SplashView(),
+          '/homeView':(context) => PhoneHomeView(),
+          '/settingsView':(context) => SettingsView(),
           },
-          initialRoute: '/homeview',
+          initialRoute: '/homeView',
       );
     }
     }

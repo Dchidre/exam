@@ -42,7 +42,7 @@ class PhoneHomeView extends StatefulWidget {
   void onPostTapDo(int index) {
     DataHolder().selectedPost = postList[index];
     DataHolder().savePostInCache();
-    Navigator.of(context).pushNamed('/postview');
+    Navigator.of(context).pushNamed('/postView');
   }
   void bottomMenuActions(int indice) {
     setState(() {
@@ -53,7 +53,7 @@ class PhoneHomeView extends StatefulWidget {
         blForm = false;
       }
       else if(indice==1){
-        Navigator.popAndPushNamed(context, '/homeview');
+        Navigator.popAndPushNamed(context, '/homeView');
       }
     });
   }

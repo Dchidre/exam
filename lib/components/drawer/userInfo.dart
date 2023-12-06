@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import '../../OnBoarding/InitialView.dart';
 
 class userInfo extends StatelessWidget {
   final bool isCollapsed;
@@ -8,6 +11,13 @@ class userInfo extends StatelessWidget {
     required this.isCollapsed,
   }) : super(key: key);
 
+  void logOut(BuildContext context) {
+    FirebaseAuth.instance.signOut();
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (BuildContext context) => InitialView()),
+        ModalRoute.withName('/initialView')
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
@@ -81,7 +91,7 @@ class userInfo extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(right: 10),
                 child: IconButton(
-                  onPressed: () {},
+                  onPressed: () {logOut(context);},
                   icon: const Icon(
                     Icons.logout,
                     color: Colors.white,
@@ -114,7 +124,7 @@ class userInfo extends StatelessWidget {
           ),
           Expanded(
             child: IconButton(
-              onPressed: () {},
+              onPressed: () {logOut(context);},
               icon: const Icon(
                 Icons.logout,
                 color: Colors.white,
