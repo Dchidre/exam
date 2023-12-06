@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:exa_chircea/components/bottomMenu.dart';
+import 'package:exa_chircea/components/drawer/DrawerView.dart';
 import 'package:flutter/material.dart';
 
 import '../FbObjects/fbPost.dart';
@@ -126,7 +127,9 @@ class PhoneHomeView extends StatefulWidget {
         child:
           posts(blForm),
       ),
+      appBar: AppBar(backgroundColor: Colors.black, foregroundColor: Colors.white,),
       bottomNavigationBar: bottomMenu(onTap: bottomMenuActions),
+      drawer: DrawerView(),
     );
   }
   }
