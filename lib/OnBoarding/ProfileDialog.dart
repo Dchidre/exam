@@ -26,7 +26,7 @@ class ProfileDialog {
     }
     void onClickCreateProfile(BuildContext context) {
       createProfile(context);
-      Navigator.of(context).popAndPushNamed('/homeview');
+      Navigator.of(context).popAndPushNamed('/homeView');
     }
 
     //paint

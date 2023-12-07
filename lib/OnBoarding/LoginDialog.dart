@@ -42,7 +42,7 @@ class LoginDialog {
 
         //now, does it exist?
         if(user!=null){
-          Navigator.of(context).popAndPushNamed("/homeview");
+          Navigator.of(context).popAndPushNamed("/homeView");
         }
         else{
           Navigator.of(context).pop();

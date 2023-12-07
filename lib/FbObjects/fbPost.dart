@@ -20,10 +20,10 @@ class fbPost{
       ) {
     final data = snapshot.data();
     return fbPost(
-      title: data?['title'],
-      body: data?['body'],
-      sUrlImg: data?['sUrlImg'],
-      sUserName: data?['sUserName'],
+      title: data?['title'] ?? '',
+      body: data?['body'] ?? '',
+      sUrlImg: data?['sUrlImg'] ?? '',
+      sUserName: data?['sUserName'] ?? '',
       //si no hay imagen, que muestre otra cosa
       //NO ME ACEPTA LA IMAGEN
     );
@@ -31,10 +31,10 @@ class fbPost{
 
   Map<String, dynamic> toFirestore() {
     return {
-      if (title != null) "titulo": title,
-      if (body != null) "cuerpo": body,
-      if (sUrlImg != null) "sUrlImg": sUrlImg,
-      if (sUserName != null) "sUserName": sUserName,
+      "title": title,
+      "body": body,
+      "sUrlImg": sUrlImg,
+      "sUserName": sUserName,
     };
   }
 }

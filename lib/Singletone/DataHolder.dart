@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../FbObjects/fbPost.dart';
+import 'FirebaseAdmin.dart';
 import 'PlatformAdmin.dart';
 
 class DataHolder {
@@ -15,6 +16,7 @@ class DataHolder {
   fbPost? selectedPost;
   late String sPostTitle;
   late PlatformAdmin platformAdmin;
+  FirebaseAdmin fbAdmin = FirebaseAdmin();
 
   //methods
   void savePostInCache() async {
@@ -45,6 +47,13 @@ class DataHolder {
 
     selectedPost = fbPost(title: fbpost_title, body: fbpost_body, sUrlImg: fbpost_surlimg, sUserName: fbpost_siduser);
     return selectedPost;
+  }
+  void createPostInFB(fbPost postNuevo) {
+    CollectionReference<fbPost> ref=db.collection("Posts")
+        .withConverter(
+      fromFirestore: fbPost.fromFirestore,
+      toFirestore: (fbPost post, _) => post.toFirestore(),);
+    ref.add(postNuevo);
   }
 
   factory DataHolder() {

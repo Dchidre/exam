@@ -2,6 +2,7 @@
 import 'package:exa_chircea/Home/PhoneHomeView.dart';
 import 'package:exa_chircea/Home/WebHomeView.dart';
 import 'package:exa_chircea/Settings/SettingView.dart';
+import 'package:exa_chircea/Settings/createPostView.dart';
 import 'package:exa_chircea/Singletone/DataHolder.dart';
 import 'package:exa_chircea/Splash/SplashView.dart';
 import 'package:flutter/foundation.dart';
@@ -40,8 +41,9 @@ class exaApp extends StatelessWidget {
           '/splashView':(context) => SplashView(),
           '/homeView':(context) => PhoneHomeView(),
           '/settingsView':(context) => SettingsView(),
+          '/createPostView':(context) => createPostView(),
           },
-          initialRoute: '/homeView',
+          initialRoute: '/initialView',
       );
     }
     }

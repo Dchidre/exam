@@ -130,6 +130,12 @@ class PhoneHomeView extends StatefulWidget {
       appBar: AppBar(backgroundColor: Colors.black, foregroundColor: Colors.white,),
       bottomNavigationBar: bottomMenu(onTap: bottomMenuActions),
       drawer: DrawerView(),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {Navigator.of(context).pushNamed('/createPostView');},
+          backgroundColor: Colors.black,
+          foregroundColor: Colors.white,
+          child: Icon(Icons.add_circle),
+      ),
     );
   }
   }
