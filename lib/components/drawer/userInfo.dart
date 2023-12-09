@@ -1,14 +1,17 @@
+import 'package:exa_chircea/FbObjects/fbUser.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../OnBoarding/InitialView.dart';
 
 class userInfo extends StatelessWidget {
+  final sAvatar;
   final bool isCollapsed;
 
   const userInfo({
     Key? key,
     required this.isCollapsed,
+    this.sAvatar = "https://ih1.redbubble.net/image.1046392292.3346/st,medium,507x507-pad,600x600,f8f8f8.jpg",
   }) : super(key: key);
 
   void logOut(BuildContext context) {
@@ -44,61 +47,11 @@ class userInfo extends StatelessWidget {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
-                  child: Image.network(
-                    'https://t3.ftcdn.net/jpg/02/99/21/98/360_F_299219888_2E7GbJyosu0UwAzSGrpIxS0BrmnTCdo4.jpg',
-                    fit: BoxFit.cover,
-                  ),
+                  child: Image.network(sAvatar),
                 ),
               ),
             ),
-            Expanded(
-              flex: 5,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Text(
-                        'User Name',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.clip,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      'MEMBER',
-                      style: TextStyle(
-                        color: Colors.grey,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const Spacer(),
-            Expanded(
-              flex: 2,
-              child: Padding(
-                padding: const EdgeInsets.only(right: 10),
-                child: IconButton(
-                  onPressed: () {logOut(context);},
-                  icon: const Icon(
-                    Icons.logout,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
+            // ... rest of the widget
           ],
         ),
       )
@@ -115,16 +68,15 @@ class userInfo extends StatelessWidget {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
-                child: Image.network(
-                  'https://t3.ftcdn.net/jpg/02/99/21/98/360_F_299219888_2E7GbJyosu0UwAzSGrpIxS0BrmnTCdo4.jpg',
-                  fit: BoxFit.cover,
-                ),
+                child: Image.network(sAvatar),
               ),
             ),
           ),
           Expanded(
             child: IconButton(
-              onPressed: () {logOut(context);},
+              onPressed: () {
+                logOut(context);
+              },
               icon: const Icon(
                 Icons.logout,
                 color: Colors.white,

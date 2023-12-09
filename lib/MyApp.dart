@@ -1,6 +1,10 @@
 
+import 'dart:collection';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:exa_chircea/Home/PhoneHomeView.dart';
 import 'package:exa_chircea/Home/WebHomeView.dart';
+import 'package:exa_chircea/Settings/ChangeProfileView.dart';
 import 'package:exa_chircea/Settings/SettingView.dart';
 import 'package:exa_chircea/Settings/createPostView.dart';
 import 'package:exa_chircea/Singletone/DataHolder.dart';
@@ -42,6 +46,7 @@ class exaApp extends StatelessWidget {
           '/homeView':(context) => PhoneHomeView(),
           '/settingsView':(context) => SettingsView(),
           '/createPostView':(context) => createPostView(),
+          '/changeProfileView':(context) => ChangeProfileView(),
           },
           initialRoute: '/initialView',
       );

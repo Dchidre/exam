@@ -1,6 +1,8 @@
 
+import 'package:exa_chircea/FbObjects/fbUser.dart';
 import 'package:exa_chircea/components/drawer/optionTile.dart';
 import 'package:exa_chircea/components/drawer/userInfo.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'header.dart';
@@ -14,6 +16,7 @@ class DrawerView extends StatefulWidget {
 
 class _DrawerViewState extends State<DrawerView> {
   bool _isCollapsed = false;
+
 
   @override
   Widget build(BuildContext context) {
@@ -41,23 +44,39 @@ class _DrawerViewState extends State<DrawerView> {
                 color: Colors.grey,
               ),
               optionTile(
-                fAction: () {Navigator.of(context).popAndPushNamed('/homeView');},
+                fAction: () {
+                  Navigator.of(context).popAndPushNamed('/homeView');
+                },
                 isCollapsed: _isCollapsed,
                 icon: Icons.home_outlined,
                 title: 'Home',
                 infoCount: 0,
               ),
               const Divider(color: Colors.grey),
+              optionTile(
+                fAction: () {
+                  Navigator.of(context).pushNamed('/changeProfileView');
+                },
+                isCollapsed: _isCollapsed,
+                icon: Icons.person,
+                title: 'Profile',
+                infoCount: 0,
+              ),
+              const Divider(color: Colors.grey),
               const Spacer(),
               optionTile(
-                fAction: () {Navigator.of(context).pushNamed('/settingsView');},
+                fAction: () {
+                  Navigator.of(context).pushNamed('/settingsView');
+                },
                 isCollapsed: _isCollapsed,
                 icon: Icons.settings,
                 title: 'Settings',
                 infoCount: 0,
               ),
               const SizedBox(height: 10),
-              userInfo(isCollapsed: _isCollapsed),
+              userInfo(
+                isCollapsed: _isCollapsed,
+              ),
               Align(
                 alignment: _isCollapsed
                     ? Alignment.bottomRight

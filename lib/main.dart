@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'MyApp.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'Singletone/DataHolder.dart';

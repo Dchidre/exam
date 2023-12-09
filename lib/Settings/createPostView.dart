@@ -78,10 +78,10 @@ class _createPostViewState extends State<createPostView> {
     //---------- INICIO DE SUBIR POST ----------
 
     fbPost newPost = fbPost(
-        title: tecTitle.text,
-        body: tecBody.text,
-        sUrlImg: imgUrl,
-        sUserName: user.name,
+      title: tecTitle.text,
+      body: tecBody.text,
+      sUrlImg: imgUrl,
+      sUserName: user.name,
     );
     DataHolder().createPostInFB(newPost);
 

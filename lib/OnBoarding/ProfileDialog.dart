@@ -1,11 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:exa_chircea/Singletone/DataHolder.dart';
 import 'package:exa_chircea/components/customBtn.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 
+import '../Singletone/GeolocAdmin.dart';
 import '../components/textField.dart';
 
 class ProfileDialog {
+
+  GeolocAdmin geolocAdmin = GeolocAdmin();
+
   @override
   Future<Object?> showProfileDialog(BuildContext context) {
 
@@ -19,9 +25,11 @@ class ProfileDialog {
     late final profileData = <String, dynamic>{
       "name": tecName.text,
       "age": int.parse(tecAge.text),
+      "sAvatar": "https://ih1.redbubble.net/image.1046392292.3346/st,medium,507x507-pad,600x600,f8f8f8.jpg",
     };
-    void createProfile(BuildContext context) async {
+    Future<void> createProfile(BuildContext context) async {
       String uidUsuario= FirebaseAuth.instance.currentUser!.uid;
+        // Set the profile data
       await db.collection("Usuarios").doc(uidUsuario).set(profileData);
     }
     void onClickCreateProfile(BuildContext context) {

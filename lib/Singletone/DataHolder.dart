@@ -1,8 +1,10 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../FbObjects/fbPost.dart';
+import '../FbObjects/fbUser.dart';
 import 'FirebaseAdmin.dart';
 import 'PlatformAdmin.dart';
 

@@ -44,18 +44,18 @@ class PhoneHomeView extends StatefulWidget {
     DataHolder().savePostInCache();
     Navigator.of(context).pushNamed('/postView');
   }
-  void bottomMenuActions(int indice) {
-    setState(() {
-      if(indice == 0){
+  void bottomMenuActions(int indice) async {
+    if (indice == 0) {
+      setState(() {
         blForm = true;
-      }
-      else if(indice==2){
+      });
+    } else if (indice == 2) {
+      setState(() {
         blForm = false;
-      }
-      else if(indice==1){
-        Navigator.popAndPushNamed(context, '/homeView');
-      }
-    });
+      });
+    } else if (indice == 1) {
+      Navigator.of(context).popAndPushNamed('/homeView');
+    }
   }
 
 
