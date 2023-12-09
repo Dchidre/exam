@@ -1,64 +1,62 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 
-import '../../Singletone/DataHolder.dart';
-
-class gridPost extends StatelessWidget{
-
+class gridPost extends StatelessWidget {
   final String sUserName;
   final int iPos;
   final String urlImg;
   final Function(int indice)? onPostTap;
 
-  const gridPost({super.key,
+  const gridPost({
+    Key? key,
     required this.sUserName,
     required this.iPos,
     this.urlImg = "",
-    required this.onPostTap});
-
+    required this.onPostTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return
-      Column(
+    return InkWell(
+      onTap: () {
+        onPostTap!(iPos);
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.all(20.0),
-            child:
-            InkWell( //para poder poner onTap
-                onTap: () {onPostTap!(iPos);},
-                child:
-                Row(
-                  children: [
-                    Container(
-                      width: DataHolder().platformAdmin.getScreenWidth() * 0.03,
-                      height: DataHolder().platformAdmin.getScreenWidth() * 0.03,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.grey
-                      ),
-                    ),
-                    SizedBox(width: DataHolder().platformAdmin.getScreenWidth() * 0.01),
-                    Text(sUserName),
-                  ],
-                )
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Container(
+                  width: 20,
+                  height: 20,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.grey,
+                  ),
+                ),
+                SizedBox(width: 8),
+                Text(sUserName),
+              ],
             ),
           ),
-          Flexible(
-            child:
-              Container(
-                width: DataHolder().platformAdmin.getScreenWidth() * 0.2,
-                height: DataHolder().platformAdmin.getScreenWidth() * 0.2,
+          SizedBox(height: 8),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Container(
                 decoration: BoxDecoration(
-                    image: DecorationImage(
-                      opacity: 1,
-                      image: NetworkImage(urlImg),
-                      fit: BoxFit.cover,
-                    )
+                  image: DecorationImage(
+                    image: NetworkImage(urlImg),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
-          )
+            ),
+          ),
         ],
-      );
+      ),
+    );
   }
 }

@@ -21,41 +21,45 @@ class listPost extends StatelessWidget{
     return
       Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(20.0),
+          InkWell(//para poder poner onTap
+            onTap: () {onPostTap!(iPos);},
             child:
-            InkWell( //para poder poner onTap
-                onTap: () {onPostTap!(iPos);},
-                child:
-                Row(
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
                   children: [
+                    Padding(padding: EdgeInsets.all(20.0),
+                      child:
+                        Row(
+                          children: [
+                            Container(
+                              width: DataHolder().platformAdmin.getScreenWidth() * 0.1,
+                              height: DataHolder().platformAdmin.getScreenWidth() * 0.1,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.grey
+                              ),
+                            ),
+                            SizedBox(width: DataHolder().platformAdmin.getScreenWidth() * 0.035),
+                            Text(sUserName),
+                          ],
+                        ),
+                    ),
                     Container(
-
-                      width: DataHolder().platformAdmin.getScreenWidth() * 0.1,
-                      height: DataHolder().platformAdmin.getScreenWidth() * 0.1,
+                      width: DataHolder().platformAdmin.getScreenWidth(),
+                      height: DataHolder().platformAdmin.getScreenWidth(),
                       decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.grey
+                      image: DecorationImage(
+                      opacity: 1,
+                      image: NetworkImage(urlImg),
+                      fit: BoxFit.cover,
+                      )
                       ),
                     ),
-                    SizedBox(width: DataHolder().platformAdmin.getScreenWidth() * 0.035),
-                    Text(sUserName),
-                  ],
-                )
-            ),
-          ),
-          Container(
-            width: DataHolder().platformAdmin.getScreenWidth(),
-            height: DataHolder().platformAdmin.getScreenWidth(),
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                  opacity: 1,
-                  image: NetworkImage(urlImg),
-                  fit: BoxFit.cover,
-                )
-            ),
-          )
-        ],
+                   ]
+            )
+            )
+        ]
       );
   }
 }
