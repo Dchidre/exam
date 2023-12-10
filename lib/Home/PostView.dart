@@ -13,6 +13,7 @@ class _PostViewState extends State<PostView> {
 
   late fbPost _dataPost;
   bool blIsPostLoaded = false;
+  final List<fbPost> postList = [];
 
   @override
   void initState() {
@@ -27,6 +28,11 @@ class _PostViewState extends State<PostView> {
       _dataPost = temp1!;
       blIsPostLoaded = true;
     });
+  }
+  void onTapEditDo(int index) {
+    DataHolder().selectedPost = postList[index];
+    DataHolder().savePostInCache();
+    Navigator.of(context).pushNamed('/EditPostView');
   }
 
 
@@ -47,7 +53,7 @@ class _PostViewState extends State<PostView> {
             Text(_dataPost.title),
             Text(_dataPost.body),
             Image.network(_dataPost.sUrlImg),
-            const TextButton(onPressed: null, child: Text("Like")),
+            const TextButton(onPressed: null, child: Text("Edit")),
           ],
         )
         )

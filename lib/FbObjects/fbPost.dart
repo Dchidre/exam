@@ -6,8 +6,12 @@ class fbPost{
   final String title;
   final String body;
   final String sUrlImg;
+  final String idPost;
+  final String idUser;
 
   fbPost ({
+    required this.idPost,
+    required this.idUser,
     required this.sUserName,
     required this.title,
     required this.body,
@@ -24,8 +28,8 @@ class fbPost{
       body: data?['body'] ?? '',
       sUrlImg: data?['sUrlImg'] ?? '',
       sUserName: data?['sUserName'] ?? '',
-      //si no hay imagen, que muestre otra cosa
-      //NO ME ACEPTA LA IMAGEN
+      idPost: data?['idPost'] ?? '',
+      idUser: data?['idUser'] ?? '',
     );
   }
 
@@ -35,6 +39,26 @@ class fbPost{
       "body": body,
       "sUrlImg": sUrlImg,
       "sUserName": sUserName,
+      "idPost": idPost,
+      "idUser": idUser,
     };
+  }
+
+  fbPost copyWith({
+    String? idPost,
+    String? idUser,
+    String? sUserName,
+    String? title,
+    String? body,
+    String? sUrlImg,
+  }) {
+    return fbPost(
+      idPost: idPost ?? this.idPost,
+      idUser: idUser ?? this.idUser,
+      sUserName: sUserName ?? this.sUserName,
+      title: title ?? this.title,
+      body: body ?? this.body,
+      sUrlImg: sUrlImg ?? this.sUrlImg,
+    );
   }
 }

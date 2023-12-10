@@ -50,7 +50,7 @@ class exaApp extends StatelessWidget {
           '/changeProfileView':(context) => ChangeProfileView(),
           '/postView':(context) => PostView(),
           },
-          initialRoute: '/homeView',
+          initialRoute: '/initialView',
       );
     }
     }

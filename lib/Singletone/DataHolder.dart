@@ -10,8 +10,6 @@ import 'PlatformAdmin.dart';
 
 class DataHolder {
 
-
-
   //var
   static final DataHolder _dataHolder = DataHolder._internal();
   FirebaseFirestore db = FirebaseFirestore.instance;
@@ -44,18 +42,43 @@ class DataHolder {
     String? fbpost_surlimg = prefs.getString('fbpost_surlimg');
     fbpost_surlimg ??= "";
 
-    String? fbpost_siduser = prefs.getString('fbpost_siduser');
-    fbpost_siduser ??= "";
+    String? fbpost_username = prefs.getString('fbpost_username');
+    fbpost_username ??= "";
 
-    selectedPost = fbPost(title: fbpost_title, body: fbpost_body, sUrlImg: fbpost_surlimg, sUserName: fbpost_siduser);
+    String? fbpost_idpost = prefs.getString('fbpost_idpost');
+    fbpost_idpost ??= "";
+
+    String? fbpost_iduser = prefs.getString('fbpost_iduser');
+    fbpost_iduser ??= "";
+
+    selectedPost = fbPost(title: fbpost_title, body: fbpost_body, sUrlImg: fbpost_surlimg, sUserName: fbpost_username, idPost: fbpost_idpost, idUser: fbpost_iduser);
     return selectedPost;
   }
-  void createPostInFB(fbPost postNuevo) {
-    CollectionReference<fbPost> ref=db.collection("Posts")
+  Future<void> createPostInFB(fbPost postNuevo) async {
+    CollectionReference<fbPost> ref = db.collection("Posts")
         .withConverter(
       fromFirestore: fbPost.fromFirestore,
-      toFirestore: (fbPost post, _) => post.toFirestore(),);
-    ref.add(postNuevo);
+      toFirestore: (fbPost post, _) => post.toFirestore(),
+    );
+
+    // Add the new post with Firestore's auto-generated ID
+    DocumentReference<fbPost> postDocRef = ref.doc();
+    String idPost = postDocRef.id;
+
+    // Create the post with a temporary ID first
+    await postDocRef.set(postNuevo.copyWith(idPost: idPost));
+
+    // Retrieve the newly created post from Firestore
+    DocumentSnapshot<fbPost> snapshot = await postDocRef.get();
+    fbPost newlyCreatedPost = snapshot.data()!;
+
+    // Update the post with its own ID
+    String postId = snapshot.id;
+    await ref.doc(postId).set(newlyCreatedPost.copyWith(idPost: postId));
+  }
+
+  void setId() {
+
   }
 
   factory DataHolder() {

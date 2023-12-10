@@ -29,7 +29,6 @@ class _ChangeProfileViewState extends State<ChangeProfileView> {
       });
     }
   }
-
   void openCamera() async {
     XFile? image = await _picker.pickImage(source: ImageSource.camera);
     if (image != null) {
@@ -38,10 +37,11 @@ class _ChangeProfileViewState extends State<ChangeProfileView> {
       });
     }
   }
-
   Future<String> uploadAvatar() async {
     try {
+      //get ref
       final storageRef = FirebaseStorage.instance.ref();
+      //set route
       String rutaEnNube = "avatars/" +
           FirebaseAuth.instance.currentUser!.uid +
           DateTime.now().toString() +
@@ -49,6 +49,7 @@ class _ChangeProfileViewState extends State<ChangeProfileView> {
       final rutaAFicheroEnNube = storageRef.child(rutaEnNube);
       final metadata = SettableMetadata(contentType: "image/jpg");
 
+      //upload the image and return a "download URL" with which we are gonna get the image from now on
       await rutaAFicheroEnNube.putFile(_imagePreview, metadata);
       String url = await rutaAFicheroEnNube.getDownloadURL();
       print("URL de la imagen: $url");
@@ -58,15 +59,14 @@ class _ChangeProfileViewState extends State<ChangeProfileView> {
       return ""; // Return a default URL or handle the error accordingly
     }
   }
+  void getUser() async {
+    user = await DataHolder().fbAdmin.getUser();
+  }
 
   @override
   void initState() {
     super.initState();
     getUser();
-  }
-
-  void getUser() async {
-    user = await DataHolder().fbAdmin.getUser();
   }
 
   @override
@@ -81,10 +81,10 @@ class _ChangeProfileViewState extends State<ChangeProfileView> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ClipOval(
+            ClipOval( //show profile image before uploading
               child: Image.file(
                 _imagePreview,
-                width: 100, // Adjust the width and height as needed
+                width: 100,
                 height: 100,
                 fit: BoxFit.cover,
               ),
@@ -98,14 +98,17 @@ class _ChangeProfileViewState extends State<ChangeProfileView> {
             SizedBox(height: 30),
             // Inside onPressed method in ChangeProfileView
 
-            FilledButton(
+            FilledButton( //upload new photo
               onPressed: () async {
                 Navigator.of(context).pop();
+                //upload image to fb and introduce download URL in "imagen"
                 if (_imagePreview.path.isNotEmpty) {
                   imagen = await uploadAvatar();
                 }
                 try {
+                  //set user as the current user logged in
                   user = await fbUser.getUserData(FirebaseAuth.instance.currentUser!.uid);
+                  //if i have a downlaod url, update the user and place the url on its avatar field
                   if (imagen.isNotEmpty) {
                     await DataHolder().fbAdmin.updateUserData(user.name, user.age, imagen);
                   }

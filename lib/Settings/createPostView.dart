@@ -82,6 +82,8 @@ class _createPostViewState extends State<createPostView> {
       body: tecBody.text,
       sUrlImg: imgUrl,
       sUserName: user.name,
+      idUser: FirebaseAuth.instance.currentUser!.uid,
+      idPost: "",
     );
     DataHolder().createPostInFB(newPost);
 
