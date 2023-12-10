@@ -11,8 +11,13 @@ import '../Singletone/DataHolder.dart';
 import '../components/textField.dart';
 
 class EditPostView extends StatefulWidget {
+
+  final String idPost;
+
+  EditPostView({required this.idPost});
+
   @override
-  State<EditPostView> createState() => _EditPostViewState();
+  State<EditPostView> createState() => _EditPostViewState(idPost: idPost);
 }
 
 class _EditPostViewState extends State<EditPostView> {
@@ -21,6 +26,11 @@ class _EditPostViewState extends State<EditPostView> {
   late fbPost _dataPost;
   bool blIsPostLoaded = false;
   final List<fbPost> postList = [];
+  late TextEditingController tecTitle = new TextEditingController();
+  late TextEditingController tecBody = new TextEditingController();
+  final String idPost; // Declare postId variable
+
+  _EditPostViewState({required this.idPost});
 
   void loadCachePost() async {
     var temp1 = await DataHolder().loadFbPost();
@@ -48,11 +58,13 @@ class _EditPostViewState extends State<EditPostView> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            textField(sLabel: 'New title', myController: tecTitle),
+            textField(sLabel: 'New body', myController: tecBody),
             SizedBox(height: 30),
-
-            FilledButton( //upload new photo
+            FilledButton(
               onPressed: () async {
-
+                DataHolder().fbAdmin.updatePostData(title: tecTitle.text, body: tecBody.text, idPost: idPost);
+                Navigator.pop(context);
               },
               child: const Text('Do it!'),
             ),

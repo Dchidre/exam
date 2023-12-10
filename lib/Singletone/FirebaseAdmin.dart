@@ -28,8 +28,16 @@ class FirebaseAdmin {
     String uidUsuario = FirebaseAuth.instance.currentUser!.uid;
     await db.collection("Usuarios").doc(uidUsuario).set(usuario.toFirestore());
   }
-  Future<void> updatePostData(String sUserName, String title, String body, String sUrlImg, String idPost, idUser) async {
-    fbPost post = fbPost(sUserName: sUserName, title: title, body: body, sUrlImg: sUrlImg, idPost: idPost, idUser: idUser);
-    await db.collection("Posts").doc(idPost).set(post.toFirestore());
-  }
+  Future<void> updatePostData({required String title, required String body, required String idPost}) async {
+    DocumentReference<Map<String, dynamic>> postRef = db.collection("Posts").doc(idPost);
+
+    // Create a map with only the fields to update
+    Map<String, dynamic> postData = {
+      'title': title,
+      'body': body,
+    };
+
+    // Update only the specified fields in Firestore
+    await postRef.update(postData);
+    }
 }

@@ -2,6 +2,7 @@
 import 'package:exa_chircea/FbObjects/fbPost.dart';
 import 'package:flutter/material.dart';
 
+import '../Settings/EditPostView.dart';
 import '../Singletone/DataHolder.dart';
 
 class PostView extends StatefulWidget {
@@ -53,7 +54,13 @@ class _PostViewState extends State<PostView> {
             Text(_dataPost.title),
             Text(_dataPost.body),
             Image.network(_dataPost.sUrlImg),
-            const TextButton(onPressed: null, child: Text("Edit")),
+            TextButton(onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => EditPostView(idPost: _dataPost.idPost),
+                ),
+              );
+            }, child: Text("Edit")),
           ],
         )
         )
