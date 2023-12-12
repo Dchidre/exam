@@ -16,6 +16,7 @@ class EditProfileView extends StatefulWidget {
 }
 
 class _EditProfileViewState extends State<EditProfileView> {
+  bool _uploading = false;
   FirebaseFirestore db = FirebaseFirestore.instance;
   ImagePicker _picker = ImagePicker();
   File _imagePreview = File("");
@@ -105,12 +106,24 @@ class _EditProfileViewState extends State<EditProfileView> {
             SizedBox(height: 30),
             // Inside onPressed method in ChangeProfileView
 
-            FilledButton( //upload new photo
-              onPressed: () async {
-                Navigator.of(context).popAndPushNamed('/homeView');
-                //upload image to fb and introduce download URL in "imagen"
+
+            _uploading ?
+            CircularProgressIndicator(color: Colors.black, backgroundColor: Colors.grey,)
+
+            :
+
+            customBtn( //upload new photo
+              fAction: () async {
+                setState(() {
+                  _uploading = true;
+                });
+
                 if (_imagePreview.path.isNotEmpty) {
                   imagen = await uploadAvatar();
+                  setState(() {
+                    _uploading = false;
+                  });
+                  Navigator.of(context).popAndPushNamed('/homeView');
                 }
                 try {
                   //set user as the current user logged in
@@ -125,11 +138,14 @@ class _EditProfileViewState extends State<EditProfileView> {
                     });
                   }
                 } catch (e) {
+                  setState(() {
+                    _uploading = false;
+                  });
                   print("Error updating user data: $e");
                   // Handle error accordingly
                 }
               },
-              child: const Text('Do it!'),
+              sText: 'Do it!',
             ),
           ],
         ),
