@@ -2,15 +2,14 @@
 import 'package:exa_chircea/FbObjects/fbPost.dart';
 import 'package:flutter/material.dart';
 
-import '../Settings/EditPostView.dart';
 import '../Singletone/DataHolder.dart';
 
-class PostView extends StatefulWidget {
+class PhonePostView extends StatefulWidget {
   @override
-  State<PostView> createState() => _PostViewState();
+  State<PhonePostView> createState() => _PhonePostViewState();
 }
 
-class _PostViewState extends State<PostView> {
+class _PhonePostViewState extends State<PhonePostView> {
 
   late fbPost _dataPost;
   bool blIsPostLoaded = false;
@@ -39,7 +38,6 @@ class _PostViewState extends State<PostView> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.black,
@@ -51,16 +49,14 @@ class _PostViewState extends State<PostView> {
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(_dataPost.title),
-            Text(_dataPost.body),
-            Image.network(_dataPost.sUrlImg),
-            TextButton(onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => EditPostView(idPost: _dataPost.idPost),
-                ),
-              );
-            }, child: Text("Edit")),
+            Text(_dataPost.title, style: TextStyle(fontSize: 40)),
+            Text(_dataPost.body, style: TextStyle(fontSize: 20)),
+            SizedBox(height: 80),
+            Image.network(
+              _dataPost.sUrlImg,
+              height: DataHolder().platformAdmin.getScreenWidth()*0.9,
+              width: DataHolder().platformAdmin.getScreenWidth()*0.9,
+              fit: BoxFit.cover),
           ],
         )
         )

@@ -1,16 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:exa_chircea/Singletone/DataHolder.dart';
 import 'package:exa_chircea/components/customBtn.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
-
-import '../Singletone/GeolocAdmin.dart';
 import '../components/textField.dart';
 
 class ProfileDialog {
-
-  GeolocAdmin geolocAdmin = GeolocAdmin();
 
   @override
   Future<Object?> showProfileDialog(BuildContext context) {

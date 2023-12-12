@@ -5,12 +5,14 @@ import '../../Singletone/DataHolder.dart';
 class listPost extends StatelessWidget{
 
   final String sUserName;
+  final String sAvatar;
   final int iPos;
   final String urlImg;
   final Function(int indice)? onPostTap;
 
   const listPost({super.key,
     required this.sUserName,
+    required this.sAvatar,
     required this.iPos,
     this.urlImg = "",
     required this.onPostTap});
@@ -33,11 +35,15 @@ class listPost extends StatelessWidget{
                         Row(
                           children: [
                             Container(
-                              width: DataHolder().platformAdmin.getScreenWidth() * 0.1,
-                              height: DataHolder().platformAdmin.getScreenWidth() * 0.1,
+                              width: DataHolder().platformAdmin.getScreenWidth() * 0.15,
+                              height: DataHolder().platformAdmin.getScreenWidth() * 0.15,
                               decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: Colors.grey
+                                  image: DecorationImage(
+                                    opacity: 1,
+                                    image: NetworkImage(sAvatar),
+                                    fit: BoxFit.cover,
+                                  )
                               ),
                             ),
                             SizedBox(width: DataHolder().platformAdmin.getScreenWidth() * 0.035),

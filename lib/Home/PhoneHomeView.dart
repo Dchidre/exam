@@ -6,6 +6,7 @@ import 'package:exa_chircea/components/drawer/DrawerView.dart';
 import 'package:flutter/material.dart';
 
 import '../FbObjects/fbPost.dart';
+import '../FbObjects/fbUser.dart';
 import '../Singletone/DataHolder.dart';
 import '../components/posts/gridPost.dart';
 import '../components/posts/listPost.dart';
@@ -20,7 +21,7 @@ class PhoneHomeView extends StatefulWidget {
   //var
   FirebaseFirestore db = FirebaseFirestore.instance;
   final List<fbPost> postList = [];
-  bool blForm = false;
+  late fbUser user;
 
   //methods
   @override
@@ -36,6 +37,7 @@ class PhoneHomeView extends StatefulWidget {
         postList.add(querySnapshot.docs[i].data());
       });
 
+
     }
 
   }
@@ -47,11 +49,11 @@ class PhoneHomeView extends StatefulWidget {
   void bottomMenuActions(int indice) async {
     if (indice == 0) {
       setState(() {
-        blForm = true;
+        //blForm = true;
       });
     } else if (indice == 2) {
       setState(() {
-        blForm = false;
+        //blForm = false;
       });
     } else if (indice == 1) {
       Navigator.of(context).popAndPushNamed('/homeView');
@@ -60,12 +62,31 @@ class PhoneHomeView extends StatefulWidget {
 
 
   //widgets
-  Widget? listCreator(BuildContext context, int index){
-    return listPost(
-      sUserName: postList[index].sUserName,
-      urlImg: postList[index].sUrlImg,
-      iPos: index, //para que el propio post sea consciente de su posición
-      onPostTap: onPostTapDo,
+  Widget? listCreator(BuildContext context, int index) {
+    final post = postList[index];
+    return FutureBuilder<fbUser>(
+      future: DataHolder().fbAdmin.getUser(post.idUser),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          // Return a placeholder or loading indicator while fetching user data
+          return LinearProgressIndicator(color: Colors.black, backgroundColor: Colors.grey,);
+        } else if (snapshot.hasError) {
+          // Handle error case
+          return Text('Error fetching user data');
+        } else if (!snapshot.hasData) {
+          // Handle no user data case
+          return Text('No user data available');
+        } else {
+          final user = snapshot.data!;
+          return listPost(
+            sUserName: post.sUserName,
+            sAvatar: user.sAvatar,
+            urlImg: post.sUrlImg,
+            iPos: index,
+            onPostTap: onPostTapDo,
+          );
+        }
+      },
     );
   }
   Widget listSeparator(BuildContext context, int index) {
@@ -86,30 +107,6 @@ class PhoneHomeView extends StatefulWidget {
       separatorBuilder: listSeparator,
     );
   }
-  //--------------------GRID-----------------------
-  Widget? gridCreator(BuildContext context, int index){
-    return gridPost(
-      sUserName: postList[index].sUserName,
-      urlImg: postList[index].sUrlImg,
-      iPos: index, //para que el propio post sea consciente de su posición
-      onPostTap: onPostTapDo,
-    );
-  }
-  Widget grid() {
-    return GridView.builder(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-      ),
-      itemCount: postList.length,
-      itemBuilder: gridCreator,
-
-    );
-  }
-  //--------------------BOTH-----------------------
-  Widget posts(bool blForm) {
-    return
-      blForm ? list() : grid();
-  }
 
   //initialize statics
   @override
@@ -125,7 +122,7 @@ class PhoneHomeView extends StatefulWidget {
       body:
       Center(
         child:
-          posts(blForm),
+          list()
       ),
       appBar: AppBar(backgroundColor: Colors.black, foregroundColor: Colors.white,),
       bottomNavigationBar: bottomMenu(onTap: bottomMenuActions),

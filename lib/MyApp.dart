@@ -4,14 +4,14 @@ import 'dart:collection';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:exa_chircea/Home/PhoneHomeView.dart';
 import 'package:exa_chircea/Home/WebHomeView.dart';
-import 'package:exa_chircea/Settings/ChangeProfileView.dart';
+import 'package:exa_chircea/Settings/EditProfileView.dart';
 import 'package:exa_chircea/Settings/SettingView.dart';
-import 'package:exa_chircea/Settings/createPostView.dart';
+import 'package:exa_chircea/Settings/CreatePostView.dart';
 import 'package:exa_chircea/Singletone/DataHolder.dart';
 import 'package:exa_chircea/Splash/SplashView.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'Home/PostView.dart';
+import 'Home/PhonePostView.dart';
 import 'OnBoarding/InitialView.dart';
 
 class exaApp extends StatelessWidget {
@@ -46,11 +46,11 @@ class exaApp extends StatelessWidget {
           '/splashView':(context) => SplashView(),
           '/homeView':(context) => PhoneHomeView(),
           '/settingsView':(context) => SettingsView(),
-          '/createPostView':(context) => createPostView(),
-          '/changeProfileView':(context) => ChangeProfileView(),
-          '/postView':(context) => PostView(),
+          '/createPostView':(context) => CreatePostView(),
+          '/changeProfileView':(context) => EditProfileView(),
+          '/postView':(context) => PhonePostView(),
           },
-          initialRoute: '/initialView',
+          initialRoute: '/homeView',
       );
     }
     }

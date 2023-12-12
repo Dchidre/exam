@@ -7,14 +7,15 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import '../FbObjects/fbUser.dart';
 import '../Singletone/DataHolder.dart';
+import '../components/customBtn.dart';
 import '../components/textField.dart';
 
-class ChangeProfileView extends StatefulWidget {
+class EditProfileView extends StatefulWidget {
   @override
-  State<ChangeProfileView> createState() => _ChangeProfileViewState();
+  State<EditProfileView> createState() => _EditProfileViewState();
 }
 
-class _ChangeProfileViewState extends State<ChangeProfileView> {
+class _EditProfileViewState extends State<EditProfileView> {
   FirebaseFirestore db = FirebaseFirestore.instance;
   ImagePicker _picker = ImagePicker();
   File _imagePreview = File("");
@@ -60,7 +61,7 @@ class _ChangeProfileViewState extends State<ChangeProfileView> {
     }
   }
   void getUser() async {
-    user = await DataHolder().fbAdmin.getUser();
+    user = await DataHolder().fbAdmin.getCurrentUser();
   }
 
   @override
@@ -77,10 +78,13 @@ class _ChangeProfileViewState extends State<ChangeProfileView> {
         title: Text('Change your avatar!'),
         titleTextStyle: const TextStyle(color: Colors.white, fontSize: 25),
       ),
-      body: SingleChildScrollView(
-        child: Column(
+      body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            SizedBox(height: 50,),
+            _imagePreview.path == '' ?
+            SizedBox()
+            :
             ClipOval( //show profile image before uploading
               child: Image.file(
                 _imagePreview,
@@ -89,10 +93,13 @@ class _ChangeProfileViewState extends State<ChangeProfileView> {
                 fit: BoxFit.cover,
               ),
             ),
+            SizedBox(height: 50),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                FilledButton(onPressed: openGallery, child: Text("Gallery")),
-                FilledButton(onPressed: openCamera, child: Text("Camera")),
+                customBtn(fAction: openGallery, sText: "Gallery"),
+                SizedBox(width: 30,),
+                customBtn(fAction: openCamera, sText: "Camera"),
               ],
             ),
             SizedBox(height: 30),
@@ -100,7 +107,7 @@ class _ChangeProfileViewState extends State<ChangeProfileView> {
 
             FilledButton( //upload new photo
               onPressed: () async {
-                Navigator.of(context).pop();
+                Navigator.of(context).popAndPushNamed('/homeView');
                 //upload image to fb and introduce download URL in "imagen"
                 if (_imagePreview.path.isNotEmpty) {
                   imagen = await uploadAvatar();
@@ -126,7 +133,6 @@ class _ChangeProfileViewState extends State<ChangeProfileView> {
             ),
           ],
         ),
-      ),
-    );
+      );
   }
 }

@@ -11,15 +11,16 @@ import 'package:image_picker/image_picker.dart';
 import '../FbObjects/fbPost.dart';
 import '../FbObjects/fbUser.dart';
 import '../Singletone/DataHolder.dart';
+import '../components/customBtn.dart';
 import '../components/textField.dart';
 
-class createPostView extends StatefulWidget {
+class CreatePostView extends StatefulWidget {
   @override
-  State<createPostView> createState() => _createPostViewState();
+  State<CreatePostView> createState() => _CreatePostViewState();
 }
 
 
-class _createPostViewState extends State<createPostView> {
+class _CreatePostViewState extends State<CreatePostView> {
 
   //var
   final tecTitle = TextEditingController();
@@ -47,10 +48,10 @@ class _createPostViewState extends State<createPostView> {
     }
   }
   void getUser() async {
-    user = await DataHolder().fbAdmin.getUser();
+    user = await DataHolder().fbAdmin.getCurrentUser();
   }
   void uploadPost() async {
-    //---------- INICIO SUBIR IMAGEN ----------
+    //getCurrentUser--- INICIO SUBIR IMAGEN ----------
     final storageRef = FirebaseStorage.instance.ref();
     String rutaEnNube = "posts/" +
         FirebaseAuth.instance.currentUser!.uid +
@@ -109,25 +110,27 @@ class _createPostViewState extends State<createPostView> {
         titleTextStyle: const TextStyle(color: Colors.white, fontSize: 25),
       ),
       body:
-      SingleChildScrollView(
-          child:
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               textField(sLabel: 'Title', myController: tecTitle, icIzq: Icons.title_outlined),
               textField(sLabel: 'Body', myController: tecBody, icIzq: Icons.textsms_outlined),
-              Image.file(_imagePreview, width: 400, height: 400,),
+              SizedBox(height: 50),
+              _imagePreview.path == ''?
+              SizedBox() : Image.file(_imagePreview, width: 200, height: 200, fit: BoxFit.cover),
+              SizedBox(height: 50),
               Row (
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  FilledButton(onPressed: openGallery, child: Text("Gallery")),
-                  FilledButton(onPressed: openCamera, child: Text("Cámara")),
+                  customBtn(fAction: openGallery, sText: "Gallery"),
+                  SizedBox(width: 50),
+                  customBtn(fAction: openCamera, sText: "Cámara"),
                 ],
               ),
               SizedBox(height: 30,),
-              FilledButton(onPressed:() {uploadPost();}, child: const Text('Post!'),),
+              customBtn(fAction:() {uploadPost();}, sText: 'Post!'),
             ],
           )
-      ),
     );
   }
 }

@@ -55,7 +55,7 @@ class _DrawerViewState extends State<DrawerView> {
               const Divider(color: Colors.grey),
               optionTile(
                 fAction: () {
-                  Navigator.of(context).pushNamed('/changeProfileView');
+                  Navigator.of(context).popAndPushNamed('/changeProfileView');
                 },
                 isCollapsed: _isCollapsed,
                 icon: Icons.person,
