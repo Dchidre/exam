@@ -29,19 +29,18 @@ class _userInfoState extends State<userInfo> {
     fetchUser();
   }
 
-  Future<void> fetchUser() async {
-    fbUser currentUser = await DataHolder().fbAdmin.getCurrentUser();
-    setState(() {
-      user = currentUser;
-    });
-  }
-
-  void logOut(BuildContext context) {
+  void logOut() {
     FirebaseAuth.instance.signOut();
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (BuildContext context) => InitialView()),
         ModalRoute.withName('/initialView')
     );
+  }
+  Future<void> fetchUser() async {
+    fbUser currentUser = await DataHolder().fbAdmin.getCurrentUser();
+    setState(() {
+      user = currentUser;
+    });
   }
 
   @override
@@ -159,7 +158,7 @@ class _userInfoState extends State<userInfo> {
                 ),
                 Expanded(
                   child: IconButton(
-                    onPressed: () {},
+                    onPressed: () {logOut();},
                     icon: const Icon(
                       Icons.logout,
                       color: Colors.white,
