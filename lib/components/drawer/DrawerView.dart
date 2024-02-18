@@ -63,6 +63,16 @@ class _DrawerViewState extends State<DrawerView> {
                 infoCount: 0,
               ),
               const Divider(color: Colors.grey),
+              optionTile(
+                fAction: () {
+                  Navigator.of(context).popAndPushNamed('/mapView');
+                },
+                isCollapsed: _isCollapsed,
+                icon: Icons.map_rounded,
+                title: 'Map',
+                infoCount: 0,
+              ),
+              const Divider(color: Colors.grey),
               const Spacer(),
               optionTile(
                 fAction: () {

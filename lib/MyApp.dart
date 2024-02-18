@@ -11,6 +11,7 @@ import 'package:exa_chircea/Singletone/DataHolder.dart';
 import 'package:exa_chircea/Splash/SplashView.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'Home/MapView.dart';
 import 'Home/PhonePostView.dart';
 import 'OnBoarding/InitialView.dart';
 
@@ -49,6 +50,7 @@ class exaApp extends StatelessWidget {
           '/createPostView':(context) => CreatePostView(),
           '/changeProfileView':(context) => EditProfileView(),
           '/postView':(context) => PhonePostView(),
+          '/mapView':(context) => MapaView(),
           },
           initialRoute: '/initialView',
       );
