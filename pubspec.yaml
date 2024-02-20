@@ -41,8 +41,9 @@ dependencies:
   shared_preferences: ^2.2.2
   firebase_storage: ^11.5.3
   image_picker: ^1.0.4
-  geolocator: ^10.1.0
+  geolocator: ^11.0.0
   google_maps_flutter: ^2.5.3
+  geocoding: ^2.1.1
 
 dev_dependencies:
   flutter_test:

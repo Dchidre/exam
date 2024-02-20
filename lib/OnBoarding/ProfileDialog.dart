@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:exa_chircea/components/customBtn.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import '../components/textField.dart';
 
 class ProfileDialog {
@@ -14,22 +16,77 @@ class ProfileDialog {
     final tecName = TextEditingController();
     final tecAge = TextEditingController();
     final tecRepPassword = TextEditingController();
+    String? address;
+    Position? pos;
+
 
     //methods
-    late final profileData = <String, dynamic>{
-      "name": tecName.text,
-      "age": int.parse(tecAge.text),
-      "sAvatar": "https://ih1.redbubble.net/image.1046392292.3346/st,medium,507x507-pad,600x600,f8f8f8.jpg",
-    };
-    Future<void> createProfile(BuildContext context) async {
-      String uidUsuario= FirebaseAuth.instance.currentUser!.uid;
-        // Set the profile data
-      await db.collection("Usuarios").doc(uidUsuario).set(profileData);
+    Future<bool> _handleLocationPermission() async {
+      LocationPermission permission = await Geolocator.checkPermission();
+
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+      }
+
+      if (permission == LocationPermission.deniedForever) {
+        return false;
+      }
+
+      return Geolocator.isLocationServiceEnabled();
     }
-    void onClickCreateProfile(BuildContext context) {
+    Future<void> _getCurrentPosition() async {
+      try {
+        pos = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      } catch (e) {
+        print("Error getting current position: $e");
+      }
+    }
+    Future<void> createProfile(BuildContext context) async {
+      // Ensure location permission
+      if (!await _handleLocationPermission()) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Location permission not granted. Profile creation failed.')),
+        );
+        return;
+      }
+
+      // Fetch current position
+      await _getCurrentPosition();
+
+      // Get address from coordinates
+      List<Placemark> placemarks = await placemarkFromCoordinates(pos!.latitude, pos!.longitude);
+      String address = placemarks.isNotEmpty ? (placemarks[0].street! + ", " + placemarks[0].locality! + ", " + placemarks[0].country!) ?? 'Unknown' : 'Unknown';
+
+      // Generate profile data
+      Map<String, dynamic> profileData = {
+        "name": tecName.text,
+        "age": int.tryParse(tecAge.text) ?? 0, // Safely parse age to int
+        "sAvatar": "https://ih1.redbubble.net/image.1046392292.3346/st,medium,507x507-pad,600x600,f8f8f8.jpg",
+        "pos": pos != null ? GeoPoint(pos!.latitude, pos!.longitude) : null,
+        "address": address,
+      };
+
+      try {
+        // Set the profile data
+        String uidUsuario = FirebaseAuth.instance.currentUser!.uid;
+        await db.collection("Usuarios").doc(uidUsuario).set(profileData);
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Profile created successfully!')),
+        );
+        Navigator.of(context).popAndPushNamed('/homeView');
+      } catch (e) {
+        print("Error creating profile: $e");
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Failed to create profile. Please try again later.')),
+        );
+      }
+    }
+    void onClickCreateProfile(BuildContext context) async{
       createProfile(context);
       Navigator.of(context).popAndPushNamed('/homeView');
     }
+
 
     //paint
     return showGeneralDialog(
