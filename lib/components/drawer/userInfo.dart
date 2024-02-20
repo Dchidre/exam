@@ -8,8 +8,6 @@ import '../../Singletone/DataHolder.dart';
 class userInfo extends StatefulWidget {
   final bool isCollapsed;
 
-
-
   userInfo({
     Key? key,
     required this.isCollapsed,
@@ -32,15 +30,18 @@ class _userInfoState extends State<userInfo> {
   void logOut() {
     FirebaseAuth.instance.signOut();
     Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (BuildContext context) => InitialView()),
-        ModalRoute.withName('/initialView')
+      MaterialPageRoute(builder: (BuildContext context) => InitialView()),
+      ModalRoute.withName('/initialView'),
     );
   }
+
   Future<void> fetchUser() async {
-    fbUser currentUser = await DataHolder().fbAdmin.getCurrentUser();
-    setState(() {
-      user = currentUser;
-    });
+    fbUser? currentUser = await DataHolder().fbAdmin.getCurrentUser();
+    if (currentUser != null) {
+      setState(() {
+        user = currentUser;
+      });
+    }
   }
 
   @override
@@ -79,7 +80,7 @@ class _userInfoState extends State<userInfo> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
                         child: Image.network(
-                          user.sAvatar,
+                          user.sAvatar ?? '', // Handling null case
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -90,12 +91,12 @@ class _userInfoState extends State<userInfo> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
+                      children: [
                         Expanded(
                           child: Align(
                             alignment: Alignment.bottomLeft,
                             child: Text(
-                              'User Name',
+                              user.name ?? '', // Handling null case
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
@@ -106,27 +107,18 @@ class _userInfoState extends State<userInfo> {
                             ),
                           ),
                         ),
-                        Expanded(
-                          child: Text(
-                            'MEMBER',
-                            style: TextStyle(
-                              color: Colors.grey,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
+                        SizedBox(height: 20)
                       ],
                     ),
                   ),
-                  const Spacer(),
+                  Spacer(),
                   Expanded(
                     flex: 2,
                     child: Padding(
                       padding: const EdgeInsets.only(right: 10),
                       child: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
+                        onPressed: () {logOut();},
+                        icon: Icon(
                           Icons.logout,
                           color: Colors.white,
                         ),
@@ -150,7 +142,7 @@ class _userInfoState extends State<userInfo> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(20),
                       child: Image.network(
-                        user.sAvatar,
+                        user.sAvatar ?? '', // Handling null case
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -159,7 +151,7 @@ class _userInfoState extends State<userInfo> {
                 Expanded(
                   child: IconButton(
                     onPressed: () {logOut();},
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.logout,
                       color: Colors.white,
                       size: 18,
