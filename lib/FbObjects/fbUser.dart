@@ -5,11 +5,15 @@ class fbUser{
   final String name;
   final int age;
   final String sAvatar;
+  final GeoPoint pos;
+  final String address;
 
   fbUser ({
     required this.name,
     required this.age,
     required this.sAvatar,
+    required this.pos,
+    required this.address
   });
 
   factory fbUser.fromFirestore(
@@ -21,6 +25,8 @@ class fbUser{
       name: data?['name'],
       age: data?['age'],
       sAvatar: data?['sAvatar'] ?? 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png',
+      pos: data?['pos'],
+      address: data?['address']
     );
   }
   Map<String, dynamic> toFirestore() {
@@ -28,6 +34,8 @@ class fbUser{
       if (name != null) "name": name,
       if (age != null) "age": age,
       if (sAvatar != null) "sAvatar": sAvatar,
+      if (pos != null) "pos": pos,
+      if (address != null) "address": address,
     };
   }
 
@@ -43,10 +51,12 @@ class fbUser{
         name: userData['name'] ?? '',
         age: userData['age'] ?? 0,
         sAvatar: userData['sAvatar'] ?? '',
+        pos: userData['pos'] ?? '',
+        address: userData['address'] ?? '',
       );
     } else {
       // Return a default user in case of no data found
-      return fbUser(name: '', age: 0, sAvatar: '');
+      return fbUser(name: '', age: 0, sAvatar: '', pos: GeoPoint(40.4168, 3.7038), address: '-');
     }
   }
 

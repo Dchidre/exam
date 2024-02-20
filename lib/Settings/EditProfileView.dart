@@ -130,7 +130,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                   user = await fbUser.getUserData(FirebaseAuth.instance.currentUser!.uid);
                   //if i have a downlaod url, update the user and place the url on its avatar field
                   if (imagen.isNotEmpty) {
-                    await DataHolder().fbAdmin.updateUserData(user.name, user.age, imagen);
+                    await DataHolder().fbAdmin.updateUserData(user.name, user.age, imagen, user.pos, user.address);
                   }
                   if (mounted) { // Check if the widget is still mounted
                     setState(() {
