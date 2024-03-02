@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:exa_chircea/FbObjects/fbUser.dart';
+import 'package:exa_chircea/OnBoarding/PhoneDialogs/PhoneNumberDialog.dart';
 import 'package:exa_chircea/OnBoarding/ProfileDialog.dart';
+import 'package:exa_chircea/components/customIconBtn.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -131,11 +133,27 @@ class LoginDialog {
                       ),
                   SizedBox(height: 30,),
                     //btn
-                    customBtn(fAction: () {
-                            Navigator.of(context).pop();
-                            SignUpDialog().showSignUpDialog(context);
-                          }, sText: 'Sign Up'),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        /*customBtn(fAction: () {
+                                Navigator.of(context).pop();
+                                SignUpDialog().showSignUpDialog(context);
+                              }, sText: 'Sign Up'),*/
+                        customIconBtn(fAction: () {
+                          Navigator.of(context).pop();
+                          SignUpDialog().showSignUpDialog(context);
+                              }, icono: Icon(Icons.mail),),
+                        SizedBox(width: 20,),
+                        customIconBtn(fAction: () {
+                          Navigator.of(context).pop();
+                          PhoneDialog().showPhoneDialog(context);
+                        }, icono: Icon(Icons.phone),)
+
+                      ],
+                    ),
                     ],)
+
                   // Add your other sign-in elements here
               ),
             ]
