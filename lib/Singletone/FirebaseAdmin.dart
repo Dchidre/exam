@@ -52,4 +52,8 @@ class FirebaseAdmin {
     // Update only the specified fields in Firestore
     await postRef.update(postData);
     }
+  void updateUser(fbUser user) async {
+    String uidUser = FirebaseAuth.instance.currentUser!.uid;
+    await db.collection("Usuarios").doc(uidUser).set(user.toFirestore());
+  }
 }

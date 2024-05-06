@@ -1,6 +1,10 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:exa_chircea/FbObjects/fbUser.dart';
+import 'package:exa_chircea/Singletone/GeolocAdmin.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../FbObjects/fbPost.dart';
 import 'FirebaseAdmin.dart';
@@ -15,6 +19,8 @@ class DataHolder {
   late String sPostTitle;
   late PlatformAdmin platformAdmin;
   FirebaseAdmin fbAdmin = FirebaseAdmin();
+  GeolocAdmin geolocAdmin = GeolocAdmin();
+  late fbUser user;
 
   //methods
   void savePostInCache() async {
@@ -52,6 +58,22 @@ class DataHolder {
     selectedPost = fbPost(title: fbpost_title, body: fbpost_body, sUrlImg: fbpost_surlimg, sUserName: fbpost_username, idPost: fbpost_idpost, idUser: fbpost_iduser);
     return selectedPost;
   }
+  Future<fbUser?> loadFbUser() async {
+    //take the UID
+    String uid=FirebaseAuth.instance.currentUser!.uid;
+
+    //make a reference to the database profiles
+    DocumentReference<fbUser> ref=db.collection("Usuarios")
+        .doc(uid)
+        .withConverter(fromFirestore: fbUser.fromFirestore,
+      toFirestore: (fbUser user, _) => user.toFirestore(),);
+
+    //take the profile if exists
+    DocumentSnapshot<fbUser> docSnap=await ref.get();
+    user=docSnap.data()!;
+
+    return user;
+  }
   Future<void> createPostInFB(fbPost postNuevo) async {
     CollectionReference<fbPost> ref = db.collection("Posts")
         .withConverter(
@@ -73,6 +95,13 @@ class DataHolder {
     // Update the post with its own ID
     String postId = snapshot.id;
     await ref.doc(postId).set(newlyCreatedPost.copyWith(idPost: postId));
+  }
+  void listenPosChange() {
+    GeolocAdmin().registrarCambiosLoc(changePosPhone);
+  }
+  void changePosPhone(Position? position) {
+    user.pos = GeoPoint(position!.latitude, position.longitude);
+    fbAdmin.updateUser(user);
   }
 
   factory DataHolder() {

@@ -6,6 +6,7 @@ import 'package:exa_chircea/components/customIconBtn.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../Singletone/DataHolder.dart';
 import '../components/customBtn.dart';
 import '../components/textField.dart';
 import 'SignUpDialog.dart';
@@ -29,18 +30,7 @@ class LoginDialog {
             password: tecPassword.text
         );
 
-        //take the UID
-        String uid=FirebaseAuth.instance.currentUser!.uid;
-
-        //make a reference to the database profiles
-        DocumentReference<fbUser> ref=db.collection("Usuarios")
-            .doc(uid)
-            .withConverter(fromFirestore: fbUser.fromFirestore,
-          toFirestore: (fbUser user, _) => user.toFirestore(),);
-
-        //take the profile if exists
-        DocumentSnapshot<fbUser> docSnap=await ref.get();
-        fbUser? user=docSnap.data();
+        fbUser? user = await DataHolder().loadFbUser();
 
         //now, does it exist?
         if(user!=null){

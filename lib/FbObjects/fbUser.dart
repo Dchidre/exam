@@ -5,7 +5,7 @@ class fbUser{
   final String name;
   final int age;
   final String sAvatar;
-  final GeoPoint pos;
+  GeoPoint pos;
   final String address;
 
   fbUser ({
