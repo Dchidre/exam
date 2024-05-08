@@ -21,6 +21,8 @@ class DataHolder {
   FirebaseAdmin fbAdmin = FirebaseAdmin();
   GeolocAdmin geolocAdmin = GeolocAdmin();
   late fbUser user;
+  //Function(int i)? fAction;
+  Function(Position position)? gpsPostChange;
 
   //methods
   void savePostInCache() async {
@@ -96,12 +98,18 @@ class DataHolder {
     String postId = snapshot.id;
     await ref.doc(postId).set(newlyCreatedPost.copyWith(idPost: postId));
   }
-  void listenPosChange() {
+  void listenPosChange(Function(Position? position)? gpsPostChange) {
     GeolocAdmin().registrarCambiosLoc(changePosPhone);
+    this.gpsPostChange=gpsPostChange;
   }
   void changePosPhone(Position? position) {
     user.pos = GeoPoint(position!.latitude, position.longitude);
+    //print("ENTRE!!!!!!!!!! ${position.toString()}");
     fbAdmin.updateUser(user);
+    //fAction!(5);
+    if(gpsPostChange!=null){
+      gpsPostChange!(position);
+    }
   }
 
   factory DataHolder() {

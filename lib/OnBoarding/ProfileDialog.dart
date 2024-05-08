@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:exa_chircea/FbObjects/fbUser.dart';
+import 'package:exa_chircea/Singletone/DataHolder.dart';
 import 'package:exa_chircea/components/customBtn.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -58,18 +60,24 @@ class ProfileDialog {
       String address = placemarks.isNotEmpty ? (placemarks[0].street! + ", " + placemarks[0].locality! + ", " + placemarks[0].country!) ?? 'Unknown' : 'Unknown';
 
       // Generate profile data
-      Map<String, dynamic> profileData = {
+      /*Map<String, dynamic> profileData = {
         "name": tecName.text,
         "age": int.tryParse(tecAge.text) ?? 0, // Safely parse age to int
         "sAvatar": "https://ih1.redbubble.net/image.1046392292.3346/st,medium,507x507-pad,600x600,f8f8f8.jpg",
         "pos": pos != null ? GeoPoint(pos!.latitude, pos!.longitude) : null,
         "address": address,
-      };
+      };*/
+
+
+
+      DataHolder().user=fbUser(name: tecName.text, age: int.tryParse(tecAge.text) ?? 0,
+          sAvatar: "https://ih1.redbubble.net/image.1046392292.3346/st,medium,507x507-pad,600x600,f8f8f8.jpg",
+          pos: pos != null ? GeoPoint(pos!.latitude, pos!.longitude) : const GeoPoint(0, 0), address: address);
 
       try {
         // Set the profile data
         String uidUsuario = FirebaseAuth.instance.currentUser!.uid;
-        await db.collection("Usuarios").doc(uidUsuario).set(profileData);
+        await db.collection("Usuarios").doc(uidUsuario).set(DataHolder().user.toFirestore());
 
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Profile created successfully!')),

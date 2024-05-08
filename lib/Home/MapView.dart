@@ -21,17 +21,32 @@ class _MapViewState extends State<MapaView> {
   late fbUser user;
   late CameraPosition _posUser;
   LatLng? _center;
+  Marker marker = Marker(
+    markerId: MarkerId('id-1'),
+    position: LatLng(37.42796133580664, -122.085749655962),
+    infoWindow: InfoWindow(title: 'Initial Marker'),
+  );
 
 
   @override
   void initState() {
     super.initState();
+    print("-------------->>>>>>>>>>>>>>>>>  ${DataHolder().user.pos.latitude}       ${DataHolder().user.pos.longitude}");
     _posUser = CameraPosition(
         target: LatLng(DataHolder().user.pos.latitude,
                         DataHolder().user.pos.longitude),
         zoom: 18
     );
-    DataHolder().listenPosChange();
+    DataHolder().listenPosChange(changePosPhone);
+  }
+
+  void changePosPhone(Position? position) {
+    print("------------------>>>>>>>>>>>>>>   ${position}");
+    setState(() {
+      marker = marker.copyWith(
+        positionParam: LatLng(position!.latitude,position.longitude)
+      );
+    });
   }
 
   void loadGeoLocator() async {
@@ -57,7 +72,8 @@ class _MapViewState extends State<MapaView> {
     return Scaffold(
       body: GoogleMap(
         onMapCreated: _onMapCreated,
-        initialCameraPosition: _posUser
+        initialCameraPosition: _posUser,
+        markers: {marker},
       ),
     );
   }

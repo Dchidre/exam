@@ -53,7 +53,7 @@ class GeolocAdmin{
       accuracy: LocationAccuracy.high,
       distanceFilter: 0,
     );
-    //print("ENTRE!!!!!!!!!!");
+
     positionStream =
         Geolocator.getPositionStream(locationSettings: locationSettings).listen(funChangePos);
   }

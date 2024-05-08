@@ -25,7 +25,7 @@ class fbUser{
       name: data?['name'],
       age: data?['age'],
       sAvatar: data?['sAvatar'] ?? 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png',
-      pos: data?['pos'],
+      pos: data?['pos'] ,
       address: data?['address']
     );
   }
