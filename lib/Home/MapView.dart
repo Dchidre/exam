@@ -1,7 +1,11 @@
 
 
 import 'dart:ffi';
-
+import 'dart:typed_data';
+import 'dart:ui';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:http/http.dart' as http;
+import 'package:image/image.dart' as img;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:exa_chircea/Singletone/DataHolder.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -24,12 +28,6 @@ class _MapViewState extends State<MapaView> {
   late CameraPosition _posUser;
   FirebaseFirestore db = FirebaseFirestore.instance;
   LatLng? _center;
-  Marker markerPrincipal = Marker(
-    markerId: MarkerId(FirebaseAuth.instance.currentUser!.uid),
-    position: LatLng(
-        DataHolder().user.pos.latitude, DataHolder().user.pos.longitude),
-    infoWindow: InfoWindow(title: DataHolder().user.name),
-  );
   Set<Marker> markerSet = Set();
   final Map<String, fbUser> userTable = Map();
 
@@ -49,7 +47,6 @@ class _MapViewState extends State<MapaView> {
             DataHolder().user.pos.longitude),
         zoom: 18
     );
-    DataHolder().listenPosChange(changePosPhone);
     downloadUsers();
     super.initState();
   }
@@ -58,17 +55,6 @@ class _MapViewState extends State<MapaView> {
   void _onMapCreated(GoogleMapController controller) {
     setState(() {
       mapController = controller;
-    });
-  }
-
-  //--->ESCUCHA<---
-  //metodo para que se vayan escuchando los cambios de pos del telefono
-  void changePosPhone(Position? position) {
-    print("------------------>>>>>>>>>>>>>>   ${position}");
-    setState(() {
-      markerPrincipal = markerPrincipal.copyWith(
-          positionParam: LatLng(position!.latitude, position.longitude));
-      markerSet.add(markerPrincipal);
     });
   }
 
@@ -83,8 +69,7 @@ class _MapViewState extends State<MapaView> {
   void downloadUsersError(error) {
     print("Listen failed: $error");
   }
-
-  void readyUsers(QuerySnapshot<fbUser> querySnapshot) {
+  void readyUsers(QuerySnapshot<fbUser> querySnapshot) async {
     print("NUM USERS UPDATED ------------>>> " + querySnapshot.docChanges.length.toString());
 
     Set<Marker> markerSetTemp = Set();
@@ -93,11 +78,13 @@ class _MapViewState extends State<MapaView> {
       fbUser temp = querySnapshot.docChanges[i].doc.data()!;
       userTable[querySnapshot.docChanges[i].doc.id] = temp;
 
+      BitmapDescriptor customIcon = await _getBitmapDescriptorFromUrl(temp.sAvatar);
+
       Marker tempMarker = Marker(
         markerId: MarkerId(querySnapshot.docChanges[i].doc.id),
-        position: LatLng(
-            temp.pos.latitude, temp.pos.longitude),
+        position: LatLng(temp.pos.latitude, temp.pos.longitude),
         infoWindow: InfoWindow(title: temp.name),
+        icon: customIcon,
       );
 
       markerSetTemp.add(tempMarker);
@@ -106,6 +93,49 @@ class _MapViewState extends State<MapaView> {
     setState(() {
       markerSet.addAll(markerSetTemp);
     });
+  }
+  Future<Uint8List> _resizeImage(Uint8List data, int width, int height) async {
+    return await FlutterImageCompress.compressWithList(
+      data,
+      minWidth: width,
+      minHeight: height,
+      quality: 100,
+      format: CompressFormat.png,
+    );
+  }
+  Future<Uint8List> _cropToCircle(Uint8List imageData) async {
+    final img.Image image = img.decodeImage(imageData)!;
+    final int diameter = image.width < image.height ? image.width : image.height;
+    final img.Image croppedImage = img.copyResizeCropSquare(image, diameter);
+
+    final img.Image circularImage = img.Image(diameter, diameter);
+    final int radius = diameter ~/ 2;
+
+    for (int y = 0; y < diameter; y++) {
+      for (int x = 0; x < diameter; x++) {
+        final int dx = x - radius;
+        final int dy = y - radius;
+        if (dx * dx + dy * dy <= radius * radius) {
+          circularImage.setPixel(x, y, croppedImage.getPixel(x, y));
+        }
+      }
+    }
+
+    return Uint8List.fromList(img.encodePng(circularImage));
+  }
+  Future<BitmapDescriptor> _getBitmapDescriptorFromUrl(String url) async {
+    try {
+      final response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200) {
+        final resizedData = await _resizeImage(response.bodyBytes, 200, 200);
+        final circularData = await _cropToCircle(resizedData);
+        return BitmapDescriptor.fromBytes(circularData);
+      } else {
+        return BitmapDescriptor.defaultMarker; // Fallback icon if the download fails
+      }
+    } catch (e) {
+      return BitmapDescriptor.defaultMarker; // Fallback icon if there's an error
+    }
   }
 
 
