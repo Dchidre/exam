@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SplashView extends StatefulWidget {
@@ -7,40 +8,35 @@ class SplashView extends StatefulWidget {
   }
 }
 
-void waitTime(BuildContext context) {
-  Future.delayed(Duration(seconds: 4)).then((_) {
-    Navigator.of(context).pushReplacementNamed('/initialview');
-  });
-}
-
-class _SplashViewState extends State<SplashView>{
+class _SplashViewState extends State<SplashView> {
   @override
   void initState() {
     super.initState();
-    waitTime(context);
+    checkSession();
+  }
+
+  void checkSession() async {
+    await Future.delayed(Duration(seconds: 3));
+    if (FirebaseAuth.instance.currentUser != null) {
+      Navigator.of(context).pushReplacementNamed("/homeView");
+    } else {
+      Navigator.of(context).pushReplacementNamed("/initialView");
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container( // Wrap in Container to set background color
-      color: Colors.white, // Set background color to white
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/phone/smiley.gif',
-                width: 250,
-                height: 150,
-                fit: BoxFit.fitHeight,
-              ),
-            ],
+    return Scaffold(
+      body: Container(
+        color: Colors.white,
+        child: Center(
+          child: Image.asset(
+            'assets/phone/splashGIF.gif',
+            width: 250,
+            height: 150,
+            fit: BoxFit.fitHeight,
           ),
-          SizedBox(height: 100,),
-          CircularProgressIndicator(color: Colors.lightBlueAccent),
-        ],
+        ),
       ),
     );
   }

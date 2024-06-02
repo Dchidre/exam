@@ -32,8 +32,13 @@ class exaApp extends StatelessWidget {
           '/initialView':(context) => InitialView(),
           '/splashView':(context) => SplashView(),
           '/homeView':(context) => WebHomeView(),
+          '/settingsView':(context) => SettingsView(),
+          '/createPostView':(context) => CreatePostView(),
+          '/changeProfileView':(context) => EditProfileView(),
+          '/postView':(context) => PhonePostView(),
+          '/mapView':(context) => MapaView(),
         },
-          initialRoute: '/homeView',
+          initialRoute: '/splashView',
       );
     }
 
@@ -52,7 +57,7 @@ class exaApp extends StatelessWidget {
           '/postView':(context) => PhonePostView(),
           '/mapView':(context) => MapaView(),
           },
-          initialRoute: '/initialView',
+          initialRoute: '/splashView',
       );
     }
     }

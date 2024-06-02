@@ -17,13 +17,13 @@ class header extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset("assets/phone/smiley.gif",height: 30, width: 30),
+          Image.asset("assets/phone/drawerGIF.gif",height: 50, width: 50),
           if (isColapsed) const SizedBox(width: 10),
           if (isColapsed)
             const Expanded(
               flex: 3,
               child: Text(
-                'Travellercea',
+                'TripTogether',
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,

@@ -16,7 +16,7 @@ class bottomMenu extends StatelessWidget{
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           TextButton(onPressed: () => onTap!(0), child: Icon(Icons.list,color: Colors.black,)),
-          IconButton(onPressed: () => onTap!(1), icon: Image.asset("assets/phone/smiley.gif",height: 25, width: 25)),
+          IconButton(onPressed: () => onTap!(1), icon: Image.asset("assets/phone/drawerGIF.gif",height: 25, width: 25)),
           TextButton(onPressed: () => onTap!(2), child: Icon(Icons.grid_view,color: Colors.black,)),
         ]
     );
