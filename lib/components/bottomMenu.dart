@@ -15,9 +15,10 @@ class bottomMenu extends StatelessWidget{
     return Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          TextButton(onPressed: () => onTap!(0), child: Icon(Icons.list,color: Colors.black,)),
-          IconButton(onPressed: () => onTap!(1), icon: Image.asset("assets/phone/drawerGIF.gif",height: 25, width: 25)),
-          TextButton(onPressed: () => onTap!(2), child: Icon(Icons.grid_view,color: Colors.black,)),
+          TextButton(onPressed: () => onTap!(0), child: Icon(Icons.home,color: Colors.black,)),
+          TextButton(onPressed: () => onTap!(1), child: Icon(Icons.search,color: Colors.black,)),
+          IconButton(onPressed: () => onTap!(2), icon: Image.asset("assets/phone/drawerGIF.gif",height: 25, width: 25)),
+          TextButton(onPressed: () => onTap!(3), child: Icon(Icons.person,color: Colors.black,)),
         ]
     );
   }
@@ -34,5 +35,8 @@ class bottomMenu extends StatelessWidget{
   }
   void btnTap3(){
     tapAction(2);
+  }
+  void btnTap4(){
+    tapAction(3);
   }
 }

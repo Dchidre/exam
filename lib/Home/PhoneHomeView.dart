@@ -1,5 +1,3 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:exa_chircea/components/bottomMenu.dart';
 import 'package:exa_chircea/components/drawer/DrawerView.dart';
@@ -16,7 +14,7 @@ class PhoneHomeView extends StatefulWidget {
   State<PhoneHomeView> createState() => _PhoneHomeViewState();
 }
 
-  class _PhoneHomeViewState extends State<PhoneHomeView>{
+class _PhoneHomeViewState extends State<PhoneHomeView>{
 
   //var
   FirebaseFirestore db = FirebaseFirestore.instance;
@@ -47,17 +45,10 @@ class PhoneHomeView extends StatefulWidget {
     Navigator.of(context).pushNamed('/postView');
   }
   void bottomMenuActions(int indice) async {
-    if (indice == 0) {
-      setState(() {
-        //blForm = true;
-      });
-    } else if (indice == 2) {
-      setState(() {
-        //blForm = false;
-      });
-    } else if (indice == 1) {
-      Navigator.of(context).popAndPushNamed('/homeView');
-    }
+    if (indice == 0) {}
+    else if (indice == 1) {}
+    else if (indice == 2) {Navigator.of(context).pushNamed('/mapView');}
+    else if (indice == 3) {}
   }
 
 
@@ -110,10 +101,10 @@ class PhoneHomeView extends StatefulWidget {
 
   //initialize statics
   @override
-    void initState() {
-      super.initState();
-      downloadPosts();
-    }
+  void initState() {
+    super.initState();
+    downloadPosts();
+  }
 
   //paint
   @override
@@ -121,18 +112,18 @@ class PhoneHomeView extends StatefulWidget {
     return Scaffold(
       body:
       Center(
-        child:
+          child:
           list()
       ),
       appBar: AppBar(backgroundColor: Colors.black, foregroundColor: Colors.white,),
       bottomNavigationBar: bottomMenu(onTap: bottomMenuActions),
       drawer: DrawerView(),
       floatingActionButton: FloatingActionButton(
-          onPressed: () {Navigator.of(context).pushNamed('/createPostView');},
-          backgroundColor: Colors.black,
-          foregroundColor: Colors.white,
-          child: Icon(Icons.add_circle),
+        onPressed: () {Navigator.of(context).pushNamed('/createPostView');},
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.white,
+        child: Icon(Icons.add_circle),
       ),
     );
   }
-  }
+}
