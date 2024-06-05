@@ -69,7 +69,7 @@ class _PhoneHomeViewState extends State<PhoneHomeView>{
           return Text('No user data available');
         } else {
           final user = snapshot.data!;
-          return listPost(
+          return ListPost(
             sUserName: post.sUserName,
             sAvatar: user.sAvatar,
             urlImg: post.sUrlImg,

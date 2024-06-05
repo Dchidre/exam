@@ -1,3 +1,4 @@
+import 'package:exa_chircea/Singletone/DataHolder.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -32,8 +33,8 @@ class _SplashViewState extends State<SplashView> {
         child: Center(
           child: Image.asset(
             'assets/phone/splashGIF.gif',
-            width: 250,
-            height: 150,
+            width: DataHolder().platformAdmin.getScreenWidth() * 0.85,
+            height: DataHolder().platformAdmin.getScreenWidth() * 0.85,
             fit: BoxFit.fitHeight,
           ),
         ),
