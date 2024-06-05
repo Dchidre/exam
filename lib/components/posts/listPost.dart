@@ -79,9 +79,18 @@ class ListPost extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 10.0), // Espacio entre el contenido y el botón de comentarios
-                Align(
-                  alignment: Alignment.centerLeft, // Alineación a la izquierda
-                  child: customIconBtn(icono: Icon(Icons.comment), fAction: () {}),
+                Row(
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft, // Alineación a la izquierda
+                      child: customIconBtn(icono: Icon(Icons.edit, color: Colors.white,), fAction: () {}),
+                    ),
+                    SizedBox(width: DataHolder().platformAdmin.getScreenWidth()*0.575,),
+                    Align(
+                      alignment: Alignment.centerRight, // Alineación a la izquierda
+                      child: customIconBtn(icono: Icon(Icons.chat, color: Colors.white,), fAction: () {}),
+                    ),
+                  ],
                 ),
               ],
             ),
