@@ -19,6 +19,7 @@ class _SplashViewState extends State<SplashView> {
   void checkSession() async {
     await Future.delayed(Duration(seconds: 3));
     if (FirebaseAuth.instance.currentUser != null) {
+      await DataHolder().loadFbUser();
       Navigator.of(context).pushReplacementNamed("/homeView");
     } else {
       Navigator.of(context).pushReplacementNamed("/initialView");
