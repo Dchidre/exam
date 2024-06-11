@@ -14,6 +14,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'Home/MapView.dart';
 import 'Home/PhonePostView.dart';
+import 'Home/WebPostView.dart';
 import 'OnBoarding/InitialView.dart';
 
 class exaApp extends StatelessWidget {
@@ -36,7 +37,7 @@ class exaApp extends StatelessWidget {
           '/settingsView':(context) => SettingsView(),
           '/createPostView':(context) => CreatePostView(),
           '/changeProfileView':(context) => EditProfileView(),
-          '/postView':(context) => PhonePostView(),
+          '/postView':(context) => WebPostView(),
           '/mapView':(context) => MapaView(),
         },
           initialRoute: '/splashView',
