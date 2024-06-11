@@ -4,6 +4,7 @@ import 'dart:collection';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:exa_chircea/Home/PhoneHomeView.dart';
 import 'package:exa_chircea/Home/WebHomeView.dart';
+import 'package:exa_chircea/OnBoardingWeb/InitialView.dart';
 import 'package:exa_chircea/Settings/EditProfileView.dart';
 import 'package:exa_chircea/Settings/SettingView.dart';
 import 'package:exa_chircea/Settings/CreatePostView.dart';
@@ -29,7 +30,7 @@ class exaApp extends StatelessWidget {
         title: "Esta es mi Actividad!",
         debugShowCheckedModeBanner: false,
         routes: {
-          '/initialView':(context) => InitialView(),
+          '/initialView':(context) => webInitialView(),
           '/splashView':(context) => SplashView(),
           '/homeView':(context) => WebHomeView(),
           '/settingsView':(context) => SettingsView(),

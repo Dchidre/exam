@@ -90,7 +90,22 @@ class _WebHomeViewState extends State<WebHomeView> {
       body: Center(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: DataHolder().platformAdmin.getScreenWidth() * 0.15),
-          child: grid(),
+          child: Column(
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(top: 40.0, bottom: 20.0), // Add padding to the top and bottom of the title
+                child: Text(
+                  'Review the latest posts!', // Title text
+                  textAlign: TextAlign.center, // Center the text
+                  style: TextStyle(
+                    fontSize: 36, // Larger font size
+                    fontWeight: FontWeight.bold, // Bold text
+                  ),
+                ),
+              ),
+              Expanded(child: grid()), // Use Expanded to ensure the grid takes available space
+            ],
+          ),
         ),
       ),
     );
