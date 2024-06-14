@@ -75,6 +75,8 @@ flutter:
     - assets/phone/smiley.gif
     - assets/phone/drawerGIF.gif
     - assets/phone/splashGIF.gif
+    - assets/phone/logo_round.png
+    - assets/phone/logo.jpg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -45,10 +45,10 @@ class _PhoneHomeViewState extends State<PhoneHomeView>{
     Navigator.of(context).pushNamed('/postView');
   }
   void bottomMenuActions(int indice) async {
-    if (indice == 0) {}
+    if (indice == 0) {Navigator.of(context).popAndPushNamed('/homeView');}
     else if (indice == 1) {}
     else if (indice == 2) {Navigator.of(context).pushNamed('/mapView');}
-    else if (indice == 3) {}
+    else if (indice == 3) {Navigator.of(context).pushNamed('/changeProfileView');}
   }
 
 

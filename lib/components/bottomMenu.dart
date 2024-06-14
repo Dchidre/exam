@@ -17,7 +17,7 @@ class bottomMenu extends StatelessWidget{
         children: [
           TextButton(onPressed: () => onTap!(0), child: Icon(Icons.home,color: Colors.black,)),
           TextButton(onPressed: () => onTap!(1), child: Icon(Icons.search,color: Colors.black,)),
-          IconButton(onPressed: () => onTap!(2), icon: Image.asset("assets/phone/drawerGIF.gif",height: 25, width: 25)),
+          IconButton(onPressed: () => onTap!(2), icon: Image.asset("assets/phone/drawerGIF.gif",height: 35, width: 35)),
           TextButton(onPressed: () => onTap!(3), child: Icon(Icons.person,color: Colors.black,)),
         ]
     );
