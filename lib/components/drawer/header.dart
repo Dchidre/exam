@@ -17,7 +17,7 @@ class header extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset("assets/phone/logo_round.png",height: 40, width: 40),
+          Image.asset("assets/phone/ic_launcher.png",height: 40, width: 40),
           if (isColapsed) const SizedBox(width: 10),
           if (isColapsed)
             const Expanded(
